@@ -14,14 +14,14 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="/post" class="nav-link">
+                    <a href="/" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Post</p>
+                        <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="/user" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-users"></i>
                         <p>User</p>
                     </a>
                 </li>
