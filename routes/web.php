@@ -22,16 +22,6 @@ Route::get('/', function () {
     return view('admin.layouts.wrapper', $data);
 });
 
-Route::get('/template', function () {
-    return view('template');
-});
-
-Route::resource('/user', AdminUserController::class);
-
-Route::get('/post', function () {
-    $data = [
-        'content' => 'admin.post.index',
-    ];
-
-    return view('admin.layouts.wrapper', $data);
+Route::prefix('/admin')->group(function () {
+    Route::resource('/user', AdminUserController::class);
 });

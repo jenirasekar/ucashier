@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminUserController extends Controller
@@ -35,7 +36,17 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            're_password' => 'required',
+        ]);
+
+        User::create($data);
+
+        // return redirect()->route('/admin/user')->with('success', 'Data berhasil disimpan!');
+        return redirect('/admin/user');
     }
 
     /**

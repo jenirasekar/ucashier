@@ -5,26 +5,47 @@
                 <div class="card-body">
                     <h4><b>Tambah Data</b></h4>
                     <div class="form-group">
-                        <form action="" method="post">
+                        <form action="/admin/user" method="post">
+                            @csrf
                             <div>
                                 <label for="name" class="col-form-label">Nama Lengkap</label>
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Nama Lengkap">
+                                <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="Nama Lengkap">
+                                @error('name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div>
                                 <label for="email" class="col-form-label">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                                <input type="email" name="email" id="email" class="form-control @error('name') is-invalid @enderror" placeholder="Email">
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div>
                                 <label for="password" class="col-form-label">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                                <input type="password" name="password" id="password" class="form-control @error('name') is-invalid @enderror" placeholder="Password">
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div>
-                                <label for="re-password" class="col-form-label">Konfirmasi Password</label>
-                                <input type="password" name="re-password" id="re-password" class="form-control" placeholder="Konfirmasi Password">
+                                <label for="re_password" class="col-form-label">Konfirmasi Password</label>
+                                <input type="password" name="re_password" id="re_password" class="form-control @error('name') is-invalid @enderror" placeholder="Konfirmasi Password">
+                                @error('re_password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <br>
-                            <a href="/user" class="btn btn-info">Kembali</a>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            <a href="/admin/user" class="btn btn-info">Kembali</a>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
                 </div>
