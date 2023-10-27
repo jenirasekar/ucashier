@@ -13,6 +13,7 @@ class AdminUserController extends Controller
     public function index()
     {
         $data = [
+            'user' => User::get(),
             'content' => 'admin.user.index',
         ];
 
@@ -38,9 +39,9 @@ class AdminUserController extends Controller
     {
         $data = $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
-            're_password' => 'required',
+            're_password' => 'required|same:password',
         ]);
 
         User::create($data);

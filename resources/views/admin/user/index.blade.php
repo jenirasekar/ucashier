@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <a href="/admin/user/create" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</a>
 
-                    {{-- Table --}}
+                    {{-- user table --}}
                     <table class="table table-bordered mt-2">
                         <thead>
                             <tr>
@@ -16,15 +16,19 @@
                             </tr>
                         </thead>
                         <tbody>
+
+                            @foreach ($user as $item)
                             <tr>
-                                <td>1</td>
-                                <td>Jenira Sekar</td>
-                                <td>jenirasekar@gmail.com</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->email }}</td>
                                 <td>
                                     <a href="" class="btn btn-sm btn-info"><i class="fas fa-edit"></i> Edit</a>
                                     <a href="" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Hapus</a>
                                 </td>
                             </tr>
+                            @endforeach
+                            
                         </tbody>
                     </table>
                 </div>
