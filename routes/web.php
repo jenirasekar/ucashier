@@ -25,3 +25,10 @@ Route::get('/', function () {
 Route::prefix('/admin')->group(function () {
     Route::resource('/user', AdminUserController::class);
 });
+
+Route::put('/admin/user/', function () {
+    $data = [
+        'content' => 'admin.user.index',
+    ];
+    return view('admin.layouts.wrapper', $data);
+});

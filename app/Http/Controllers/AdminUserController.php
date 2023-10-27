@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserController extends Controller
 {
@@ -61,9 +62,14 @@ class AdminUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $data = [
+            'user' => User::find($id),
+            'content' => 'admin.user.edit',
+        ];
+
+        return view('admin.layouts.wrapper', $data);
     }
 
     /**
@@ -71,7 +77,24 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $id_user = User::find($id);
+
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users, email,' . $id_user->email,
+            'password' => 'nullable',
+            're_password' => 'same:password',
+        ]);
+
+        if ($request->password != '') {
+            $data['password'] = Hash::make($request->password);
+        } else {
+            $data['password'] = $id_user->password;
+        }
+
+        $id_user->update($data);
+        // return redirect()->route('/admin/user')->with('success', 'Data berhasil disimpan!');
+        return redirect('/admin/user');
     }
 
     /**

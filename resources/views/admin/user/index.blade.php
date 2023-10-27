@@ -23,12 +23,12 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->email }}</td>
                                 <td>
-                                    <a href="" class="btn btn-sm btn-info"><i class="fas fa-edit"></i> Edit</a>
+                                    <a href="/admin/user/{{ $item->id }}/edit" class="btn btn-sm btn-info"><i class="fas fa-edit"></i> Edit</a>
                                     <a href="" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Hapus</a>
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                     </table>
                 </div>
