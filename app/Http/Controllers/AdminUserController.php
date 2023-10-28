@@ -62,7 +62,7 @@ class AdminUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $data = [
             'user' => User::find($id),
@@ -75,13 +75,13 @@ class AdminUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        $id_user = User::find($id);
+        $id_user = User::findOrFail($id);
 
         $data = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users, email,' . $id_user->email,
+            'email' => 'required|email|unique:users,email,' . $id_user->id,
             'password' => 'nullable',
             're_password' => 'same:password',
         ]);
@@ -93,8 +93,9 @@ class AdminUserController extends Controller
         }
 
         $id_user->update($data);
-        // return redirect()->route('/admin/user')->with('success', 'Data berhasil disimpan!');
-        return redirect('/admin/user');
+
+        return redirect()->route('admin.user.index')->with('success', 'Data berhasil diubah!');
+        // return redirect('/admin/user/' . $id_user);
     }
 
     /**

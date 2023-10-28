@@ -22,13 +22,12 @@ Route::get('/', function () {
     return view('admin.layouts.wrapper', $data);
 });
 
+Route::get('/admin/user', 'AdminUserController@index')->name('admin.user.index');
+
 Route::prefix('/admin')->group(function () {
     Route::resource('/user', AdminUserController::class);
 });
 
-Route::put('/admin/user/', function () {
-    $data = [
-        'content' => 'admin.user.index',
-    ];
-    return view('admin.layouts.wrapper', $data);
-});
+Route::put('/admin/user/{id}', 'AdminUserController@update')->name('admin.user.update');
+
+Route::get('/admin/user/{id}/edit', 'AdminUserController@edit')->name('admin.user.edit');
