@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/admin/user', 'AdminUserController@index')->name('admin.user.index');
+
 Route::get('/', function () {
     $data = [
         'content' => 'admin.dashboard.index',
@@ -22,12 +24,11 @@ Route::get('/', function () {
     return view('admin.layouts.wrapper', $data);
 });
 
-Route::get('/admin/user', 'AdminUserController@index')->name('admin.user.index');
 
-Route::prefix('/admin')->group(function () {
-    Route::resource('/user', AdminUserController::class);
-});
-
-Route::put('/admin/user/{id}', 'AdminUserController@update')->name('admin.user.update');
+// Route::prefix('/admin')->group(function () {
+//     Route::resource('/user', AdminUserController::class);
+// });
 
 Route::get('/admin/user/{id}/edit', 'AdminUserController@edit')->name('admin.user.edit');
+Route::put('/admin/user/{id}', 'AdminUserController@update')->name('admin.user.update');
+

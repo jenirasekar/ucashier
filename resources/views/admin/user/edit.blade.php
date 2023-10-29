@@ -5,9 +5,9 @@
                 <div class="card-body">
                     <h4><b>Edit Data</b></h4>
                     <div class="form-group">
-                        <form action="{{ route('admin.user.update', $user->id) }}" method="post">
-                            @csrf
+                        <form action="{{ route('admin.user.update') }}" method="post">
                             @method('PUT')
+                            @csrf
                             <div>
                                 <label for="name" class="col-form-label">Nama Lengkap</label>
                                 <input type="text" name="name" id="name"

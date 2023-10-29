@@ -77,11 +77,11 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $id_user = User::findOrFail($id);
+        $user = User::find($id);
 
         $data = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id_user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable',
             're_password' => 'same:password',
         ]);
@@ -89,13 +89,13 @@ class AdminUserController extends Controller
         if ($request->password != '') {
             $data['password'] = Hash::make($request->password);
         } else {
-            $data['password'] = $id_user->password;
+            $data['password'] = $user->password;
         }
 
-        $id_user->update($data);
+        $user->update($data);
 
-        return redirect()->route('admin.user.index')->with('success', 'Data berhasil diubah!');
-        // return redirect('/admin/user/' . $id_user);
+        // return redirect()->route('admin.user.index')->with('success', 'Data berhasil diubah!');
+        return view('admin.user.index', compact('user'));
     }
 
     /**
