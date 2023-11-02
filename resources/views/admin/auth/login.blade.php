@@ -33,7 +33,7 @@
                     </div>
                 @endif
 
-                <form action="/login/do" method="post">
+                <form action="{{ route('doLogin') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Email">

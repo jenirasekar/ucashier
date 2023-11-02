@@ -15,16 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('admin.layouts.wrapper', ['content' => 'index']);
+});
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AdminAuthController::class, 'index'])->name('login');
-    Route::post('/login/do', [AdminAuthController::class, 'doLogin']);
-    Route::get('/', function () {
-        return view('admin.layouts.wrapper', ['content' => 'index']);
-    });
+    Route::post('/login/do', [AdminAuthController::class, 'doLogin'])->name('doLogin');
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/logout', [AdminAuthController::class, 'logout']);
+    Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logout');
     
     /* 
     * Dashboard

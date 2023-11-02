@@ -20,7 +20,7 @@ class AdminAuthController extends Controller
         if (Auth::attempt($data)) {
             $request->session()->regenerate();
 
-            return redirect('/admin/dashboard');
+            return redirect()->route('admin.dashboard.index');
         }
 
         return back()->with('loginError', 'Email atau password salah!');
@@ -31,6 +31,6 @@ class AdminAuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }

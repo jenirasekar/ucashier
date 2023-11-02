@@ -5,5 +5,5 @@
 
 <div class="container-fluid">
     <h1>Selamat datang</h1> 
-    {{-- <p>{{ auth()->user()->name }}, Anda berada di halaman admin</p> --}}
+    <p>{{ auth()->user()->name }}, Anda berada di halaman admin</p>
 </div>
