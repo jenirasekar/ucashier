@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/admin/user', 'AdminUserController@index')->name('admin.user.index');
+Route::get('/login', [AdminAuthController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login/do', [AdminAuthController::class, 'doLogin'])->middleware('guest');
+Route::get('/logout', [AdminAuthController::class, 'logout'])->middleware('auth');
 
 Route::get('/', function () {
     $data = [
@@ -24,11 +27,13 @@ Route::get('/', function () {
     return view('admin.layouts.wrapper', $data);
 });
 
+Route::prefix('/admin')->middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        $data = [
+            'content' => 'admin.dashboard.index',
+        ];
 
-// Route::prefix('/admin')->group(function () {
-//     Route::resource('/user', AdminUserController::class);
-// });
-
-Route::get('/admin/user/{id}/edit', 'AdminUserController@edit')->name('admin.user.edit');
-Route::put('/admin/user/{id}', 'AdminUserController@update')->name('admin.user.update');
-
+        return view('admin.layouts.wrapper', $data);
+    });
+    Route::resource('/user', AdminUserController::class);
+});
