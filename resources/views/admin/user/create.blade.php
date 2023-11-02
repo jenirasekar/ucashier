@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <h4><b>Tambah Data</b></h4>
                     <div class="form-group">
-                        <form action="/admin/user" method="post">
+                        <form action="{{ route('admin.user.store') }}" method="post">
                             @csrf
                             <div>
                                 <label for="name" class="col-form-label">Nama Lengkap</label>

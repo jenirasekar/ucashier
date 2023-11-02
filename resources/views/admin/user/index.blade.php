@@ -33,7 +33,7 @@
                                             <a href="/admin/user/{{ $item->id }}/edit"
                                                 class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
                                             {{-- <a href="" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Hapus</a> --}}
-                                            <form action="/admin/user/{{ $item->id }}" method="POST">
+                                            <form action="{{ route('admin.user.delete', $item->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button class="btn btn-danger btn-sm ml-1" type="submit"

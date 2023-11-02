@@ -22,6 +22,14 @@ class AdminUserController extends Controller
         return view('admin.layouts.wrapper', $data);
     }
 
+    public function indexDashboard() {
+        $data = [
+            'content' => 'admin.dashboard.index',
+        ];
+
+        return view('admin.layouts.wrapper', $data);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -48,9 +56,8 @@ class AdminUserController extends Controller
 
         User::create($data);
 
-        // return redirect()->route('/admin/user')->with('success', 'Data berhasil disimpan!');
-        Alert::success('Success Title', 'Success Message');
-        return redirect('/admin/user');
+        Alert::success('Sukses', 'Data berhasil disimpan!');
+        return redirect()->route('admin.user.index')->with('success', 'Data berhasil disimpan!');
     }
 
     /**
@@ -79,7 +86,7 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         $data = $request->validate([
             'name' => 'required',
@@ -96,8 +103,8 @@ class AdminUserController extends Controller
 
         $user->update($data);
 
-        // return redirect()->route('admin.user.index')->with('success', 'Data berhasil diubah!');
-        return view('admin.user.index', compact('user'));
+        Alert::success('Sukses', 'Data berhasil diubah!');
+        return redirect()->route('admin.user.index')->with('success', 'Data berhasil diubah!');
     }
 
     /**
@@ -108,6 +115,7 @@ class AdminUserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect('/admin/user')->with('success', 'Data berhasil dihapus!');
+        Alert::success('Sukses', 'Data berhasil dihapus!');
+        return redirect()->route('admin.user.index')->with('success', 'Data berhasil dihapus!');
     }
 }
