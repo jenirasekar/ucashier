@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -48,6 +49,7 @@ class AdminUserController extends Controller
         User::create($data);
 
         // return redirect()->route('/admin/user')->with('success', 'Data berhasil disimpan!');
+        Alert::success('Success Title', 'Success Message');
         return redirect('/admin/user');
     }
 
