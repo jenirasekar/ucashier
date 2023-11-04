@@ -18,6 +18,7 @@
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Role</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -28,6 +29,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
+                                    <td style="text-transform: capitalize">{{ $item->role }}</td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="/admin/user/{{ $item->id }}/edit"

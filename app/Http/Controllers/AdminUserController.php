@@ -22,7 +22,8 @@ class AdminUserController extends Controller
         return view('admin.layouts.wrapper', $data);
     }
 
-    public function indexDashboard() {
+    public function indexDashboard()
+    {
         $data = [
             'content' => 'admin.dashboard.index',
         ];
@@ -50,6 +51,7 @@ class AdminUserController extends Controller
         $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
+            'role' => 'required',
             'password' => 'required',
             're_password' => 'required|same:password',
         ]);
@@ -91,6 +93,7 @@ class AdminUserController extends Controller
         $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'role' => 'required',
             'password' => 'nullable',
             're_password' => 'same:password',
         ]);

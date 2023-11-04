@@ -31,6 +31,26 @@
                                 @enderror
                             </div>
                             <div>
+                                <label for="role" class="col-form-label">Role</label>
+                                <select name="role" id="role" class="form-control">
+                                    @if ($user->role == 'admin')
+                                        <option value="admin" selected>Admin</option>
+                                        <option value="owner">Owner</option>
+                                        <option value="kasir">Kasir</option>
+                                    @endif
+                                    @if ($user->role == 'owner')
+                                        <option value="admin">Admin</option>
+                                        <option value="owner" selected>Owner</option>
+                                        <option value="kasir">Kasir</option>
+                                    @endif
+                                    @if ($user->role == 'kasir')
+                                        <option value="admin">Admin</option>
+                                        <option value="owner">Owner</option>
+                                        <option value="kasir" selected>Kasir</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div>
                                 <label for="password" class="col-form-label">Password</label>
                                 <input type="password" name="password" id="password"
                                     class="form-control @error('name') is-invalid @enderror" placeholder="Password"
