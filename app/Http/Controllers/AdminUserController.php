@@ -15,6 +15,7 @@ class AdminUserController extends Controller
     public function index()
     {
         $data = [
+            'title' => 'Monitoring User',
             'user' => User::get(),
             'content' => 'admin.user.index',
         ];

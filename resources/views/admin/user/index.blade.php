@@ -2,6 +2,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
+                <div class="card-title m-auto p-2">
+                    <h5 style="font-weight: bold">{{ $title }}</h5>
+                </div>
                 <div class="card-body">
                     <a href="/admin/user/create" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</a>
 

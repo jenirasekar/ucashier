@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminKategoriController;
 use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/user/store', [AdminUserController::class, 'store'])->name('admin.user.store');
     Route::get('/admin/user/{id}/edit', [AdminUserController::class, 'edit'])->name('admin.user.edit');
     Route::put('/admin/user/{id}/update', [AdminUserController::class, 'update'])->name('admin.user.update');
+
+    /* 
+    * Kategori
+    */
+    Route::get('/admin/kategori', [AdminKategoriController::class, 'index'])->name('admin.kategori.index');
+    Route::get('/admin/kategori/create', [AdminKategoriController::class, 'create'])->name('admin.kategori.create');
 });
 
 /* Delete user */
