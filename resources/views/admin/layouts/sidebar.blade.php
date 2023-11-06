@@ -21,6 +21,12 @@
                 </li>
                 @auth
                     <li class="nav-item">
+                        <a href="/admin/produk" class="nav-link {{ Request::is('admin/produk*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>Produk</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/admin/kategori" class="nav-link {{ Request::is('admin/kategori*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-list"></i>
                             <p>Kategori</p>

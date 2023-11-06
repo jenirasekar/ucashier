@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminKategoriController;
+use App\Http\Controllers\AdminProdukController;
 use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/kategori/{id}/edit', [AdminKategoriController::class, 'edit'])->name('admin.kategori.edit');
     Route::put('/admin/kategori/{id}/update', [AdminKategoriController::class, 'update'])->name('admin.kategori.update');
     Route::delete('/admin/kategori/{id}/delete', [AdminKategoriController::class, 'destroy'])->name('admin.kategori.destroy');
+
+    /* 
+    * Produk 
+    */
+    Route::get('/admin/produk', [AdminProdukController::class, 'index'])->name('admin.produk.index');
+    Route::get('/admin/produk/create', [AdminProdukController::class, 'create'])->name('admin.produk.create');
+    Route::post('/admin/produk/store', [AdminProdukController::class, 'store'])->name('admin.produk.store');
+    Route::get('/admin/produk/{id}/edit', [AdminProdukController::class, 'edit'])->name('admin.produk.edit');
+    Route::put('/admin/produk/{id}/update', [AdminProdukController::class, 'update'])->name('admin.produk.update');
+    Route::delete('/admin/produk/{id}/delete', [AdminProdukController::class, 'destroy'])->name('admin.produk.destroy');
 });
 
 /* Delete user */
