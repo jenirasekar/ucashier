@@ -33,7 +33,8 @@
                                         <div class="d-flex">
                                             <a href="/admin/kategori/{{ $item->id }}/edit"
                                                 class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
-                                            <form action="{{ route('admin.kategori.destroy', $item->id) }}" method="post">
+                                            <form action="{{ route('admin.kategori.destroy', $item->id) }}"
+                                                method="post">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button class="btn btn-danger btn-sm ml-1" type="submit"
