@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminKategoriController extends Controller
 {
@@ -37,7 +39,15 @@ class AdminKategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'nama_kategori' => 'required|unique:kategori',
+        ]);
+
+       Kategori::create($data);
+
+
+       Alert::success('Sukses', 'Data berhasil disimpan');
+       return redirect()->route('admin.kategori.index')->with('success', 'Data berhasil disimpan');
     }
 
     /**
