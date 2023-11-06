@@ -48,6 +48,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/kategori', [AdminKategoriController::class, 'index'])->name('admin.kategori.index');
     Route::get('/admin/kategori/create', [AdminKategoriController::class, 'create'])->name('admin.kategori.create');
     Route::post('/admin/kategori/store', [AdminKategoriController::class, 'store'])->name('admin.kategori.store');
+    Route::get('/admin/kategori/{id}/edit', [AdminKategoriController::class, 'edit'])->name('admin.kategori.edit');
+    Route::put('/admin/kategori/{id}/update', [AdminKategoriController::class, 'update'])->name('admin.kategori.update');
+    Route::delete('/admin/kategori/{id}/delete', [AdminKategoriController::class, 'destroy'])->name('admin.kategori.destroy');
 });
 
 /* Delete user */

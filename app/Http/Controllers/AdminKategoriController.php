@@ -15,6 +15,7 @@ class AdminKategoriController extends Controller
     {
         $data = [
             'title' => 'Monitoring Kategori',
+            'kategori' => Kategori::paginate(10),
             'content' => 'admin.kategori.index',
         ];
 
@@ -43,11 +44,11 @@ class AdminKategoriController extends Controller
             'nama_kategori' => 'required|unique:kategori',
         ]);
 
-       Kategori::create($data);
+        Kategori::create($data);
 
 
-       Alert::success('Sukses', 'Data berhasil disimpan');
-       return redirect()->route('admin.kategori.index')->with('success', 'Data berhasil disimpan');
+        Alert::success('Sukses', 'Data berhasil disimpan!');
+        return redirect()->route('admin.kategori.index')->with('success', 'Data berhasil disimpan!');
     }
 
     /**
@@ -61,24 +62,43 @@ class AdminKategoriController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
-        //
+        $data = [
+            'kategori' => Kategori::find($id),
+            'title' => 'Tambah Kategori',
+            'content' => 'admin.kategori.edit',
+        ];
+
+        return view('admin.layouts.wrapper', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $kategori = Kategori::find($id);
+        $data = $request->validate([
+            'nama_kategori' => 'required|unique:kategori',
+        ]);
+
+        $kategori->update($data);
+
+
+        Alert::success('Sukses', 'Data berhasil diubah!');
+        return redirect()->route('admin.kategori.index')->with('success', 'Data berhasil diubah!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $kategori = Kategori::find($id);
+        $kategori->delete();
+
+        Alert::success('Sukses', 'Data berhasil dihapus!');
+        return redirect()->route('admin.kategori.index')->with('success', 'Data berhasil dihapus!');
     }
 }
