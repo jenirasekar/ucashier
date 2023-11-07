@@ -3,16 +3,17 @@
         <div class="col-6">
             <div class="card">
                 <div class="card-title m-auto p-2">
-                    <h5 style="font-weight: bold">{{ $title }}</h5>
+                    <h5 style="font-weight: bold"><?php echo e($title); ?></h5>
                 </div>
                 <div class="card-body">
                     <a href="/admin/produk/create" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</a>
 
-                    @if (session()->has('success'))
+                    <?php if(session()->has('success')): ?>
                         <div class="alert alert-success mt-2"><i class="fas fa-check"></i>
-                            {{ session('success') }}
+                            <?php echo e(session('success')); ?>
+
                         </div>
-                    @endif
+                    <?php endif; ?>
 
                     <table class="table table-bordered mt-2">
                         <thead>
@@ -28,22 +29,22 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($produk as $item)
+                            <?php $__currentLoopData = $produk; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->id_kategori }}</td>
-                                    <td>{{ $item->harga }}</td>
-                                    <td>{{ $item->stok }}</td>
-                                    <td><img src="{{ Storage::url('public/produk/') . $item->gambar }}" alt="" style="width: 100px;"></td>
+                                    <td><?php echo e($loop->iteration); ?></td>
+                                    <td><?php echo e($item->nama); ?></td>
+                                    <td><?php echo e($item->id_kategori); ?></td>
+                                    <td><?php echo e($item->harga); ?></td>
+                                    <td><?php echo e($item->stok); ?></td>
+                                    <td><img src="<?php echo e(Storage::url('public/produk/') . $item->gambar); ?>" alt="" style="width: 100px;"></td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="/admin/kategori/{{ $item->id }}/edit"
+                                            <a href="/admin/kategori/<?php echo e($item->id); ?>/edit"
                                                 class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
-                                            <form action="{{ route('admin.kategori.destroy', $item->id) }}"
+                                            <form action="<?php echo e(route('admin.kategori.destroy', $item->id)); ?>"
                                                 method="post">
-                                                @method('DELETE')
-                                                @csrf
+                                                <?php echo method_field('DELETE'); ?>
+                                                <?php echo csrf_field(); ?>
                                                 <button class="btn btn-danger btn-sm ml-1" type="submit"
                                                     onclick="return confirm('Apakah Anda yakin?')"><i
                                                         class="fas fa-trash"></i></button>
@@ -51,15 +52,16 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
 
                     <div class="d-flex justify-content-center">
-                        {{-- {{ $kategori->links() }} --}}
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<?php /**PATH E:\ucashier\resources\views/admin/produk/index.blade.php ENDPATH**/ ?>

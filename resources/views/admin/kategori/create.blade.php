@@ -1,4 +1,3 @@
-{{-- <h1>hai mas <span style="text-transform: lowercase">{{ auth()->user()->name }}</span> kiw kiw </h1> --}}
 <div class="container-fluid p-2">
     <div class="row">
         <div class="col-6">

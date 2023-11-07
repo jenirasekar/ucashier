@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminProdukController extends Controller
@@ -29,6 +31,7 @@ class AdminProdukController extends Controller
     {
         $data = [
             'title' => 'Tambah Produk',
+            'kategori' => Kategori::get(),
             'content' => 'admin.produk.create',
         ];
 
@@ -41,11 +44,18 @@ class AdminProdukController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nama' => 'required|unique:kategori',
+            'nama' => 'required|unique:produk',
+            'id_kategori' => 'required',
             'harga' => 'required',
             'stok' => 'required',
-            'gambar' => 'required|mimes:jpg,jpeg,png,svg',
+            'gambar' => 'image|mimes:jpg,jpeg,png,svg,jfif'
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $gambar = $request->file('gambar');
+            $gambarPath = $gambar->store('public/produk');
+            $data['gambar'] = $gambarPath;
+        }
 
         Produk::create($data);
 
