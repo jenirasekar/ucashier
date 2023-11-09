@@ -84,6 +84,7 @@ class AdminProdukController extends Controller
     {
         $data = [
             'produk' => Produk::find($id),
+            'kategori' => Kategori::get(),
             'title' => 'Tambah Produk',
             'content' => 'admin.produk.edit',
         ];
@@ -98,11 +99,25 @@ class AdminProdukController extends Controller
     {
         $produk = Produk::find($id);
         $data = $request->validate([
-            'nama_kategori' => 'required|unique:kategori',
+            'nama' => 'required',
+            'id_kategori' => 'required',
+            'harga' => 'required',
+            'stok' => 'required',
+            'gambar' => 'image|mimes:jpg,jpeg,png,svg,jfif'
         ]);
 
-        $produk->update($data);
+        if ($request->hasFile('gambar')) {
+            $gambar = $request->file('gambar');
+            $file_name = time() . "_" . $gambar->getClientOriginalName();
 
+            $storage = 'uploads/images/';
+            $gambar->move($storage, $file_name);
+            $data['gambar'] = $storage . $file_name;
+        } else {
+            $data['gambar'] = $produk->gambar;
+        }
+
+        $produk->update($data);
 
         Alert::success('Sukses', 'Data berhasil diubah!');
         return redirect()->route('admin.produk.index')->with('success', 'Data berhasil diubah!');
@@ -114,6 +129,10 @@ class AdminProdukController extends Controller
     public function destroy(int $id)
     {
         $produk = Produk::find($id);
+
+        if ($produk->gambar != null) {
+            unlink($produk->gambar);
+        }
         $produk->delete();
 
         Alert::success('Sukses', 'Data berhasil dihapus!');

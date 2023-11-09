@@ -37,9 +37,9 @@
                                     <td><?php echo e($item->stok); ?></td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="/admin/kategori/<?php echo e($item->id); ?>/edit"
+                                            <a href="/admin/produk/<?php echo e($item->id); ?>/edit"
                                                 class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
-                                            <form action="<?php echo e(route('admin.kategori.destroy', $item->id)); ?>"
+                                            <form action="<?php echo e(route('admin.produk.destroy', $item->id)); ?>"
                                                 method="post">
                                                 <?php echo method_field('DELETE'); ?>
                                                 <?php echo csrf_field(); ?>

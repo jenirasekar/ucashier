@@ -36,9 +36,9 @@
                                     <td>{{ $item->stok }}</td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="/admin/kategori/{{ $item->id }}/edit"
+                                            <a href="/admin/produk/{{ $item->id }}/edit"
                                                 class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
-                                            <form action="{{ route('admin.kategori.destroy', $item->id) }}"
+                                            <form action="{{ route('admin.produk.destroy', $item->id) }}"
                                                 method="post">
                                                 @method('DELETE')
                                                 @csrf
