@@ -23,7 +23,6 @@
                                 <th>Kategori</th>
                                 <th>Harga</th>
                                 <th>Stok</th>
-                                <th>Gambar</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -36,7 +35,6 @@
                                     <td><?php echo e($item->id_kategori); ?></td>
                                     <td><?php echo e($item->harga); ?></td>
                                     <td><?php echo e($item->stok); ?></td>
-                                    <td><img src="<?php echo e(Storage::url('public/produk/') . $item->gambar); ?>" alt="" style="width: 100px;"></td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="/admin/kategori/<?php echo e($item->id); ?>/edit"

@@ -22,7 +22,6 @@
                                 <th>Kategori</th>
                                 <th>Harga</th>
                                 <th>Stok</th>
-                                <th>Gambar</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -35,7 +34,6 @@
                                     <td>{{ $item->id_kategori }}</td>
                                     <td>{{ $item->harga }}</td>
                                     <td>{{ $item->stok }}</td>
-                                    <td><img src="{{ Storage::url('public/produk/') . $item->gambar }}" alt="" style="width: 100px;"></td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="/admin/kategori/{{ $item->id }}/edit"

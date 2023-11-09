@@ -53,8 +53,13 @@ class AdminProdukController extends Controller
 
         if ($request->hasFile('gambar')) {
             $gambar = $request->file('gambar');
-            $gambarPath = $gambar->store('public/produk');
-            $data['gambar'] = $gambarPath;
+            $file_name = time() . "_" . $gambar->getClientOriginalName();
+
+            $storage = 'uploads/images/';
+            $gambar->move($storage, $file_name);
+            $data['gambar'] = $storage . $file_name;
+        } else {
+            $data['gambar'] = null;
         }
 
         Produk::create($data);
