@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminKategoriController;
 use App\Http\Controllers\AdminProdukController;
+use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +63,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/produk/{id}/edit', [AdminProdukController::class, 'edit'])->name('admin.produk.edit');
     Route::put('/admin/produk/{id}/update', [AdminProdukController::class, 'update'])->name('admin.produk.update');
     Route::delete('/admin/produk/{id}/delete', [AdminProdukController::class, 'destroy'])->name('admin.produk.destroy');
+
+    /* 
+    * Transaksi 
+    */
+    Route::get('/admin/transaksi', [AdminTransaksiController::class, 'index'])->name('admin.transaksi.index');
+    Route::get('/admin/transaksi/create', [AdminTransaksiController::class, 'create'])->name('admin.transaksi.create');
+    Route::post('/admin/transaksi/store', [AdminTransaksiController::class, 'store'])->name('admin.transaksi.store');
+    Route::get('/admin/transaksi/{id}/edit', [AdminTransaksiController::class, 'edit'])->name('admin.transaksi.edit');
+    Route::put('/admin/transaksi/{id}/update', [AdminTransaksiController::class, 'update'])->name('admin.transaksi.update');
+    Route::delete('/admin/transaksi/{id}/delete', [AdminTransaksiController::class, 'destroy'])->name('admin.transaksi.destroy');
 });
 
 /* Delete user */

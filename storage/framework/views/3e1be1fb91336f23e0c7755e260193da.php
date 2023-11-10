@@ -18,6 +18,11 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>Dashboard</p>
                     </a>
+                <li class="nav-item">
+                    <a href="/admin/transaksi" class="nav-link <?php echo e(Request::is('admin/transaksi') ? 'active' : ''); ?>">
+                        <i class="nav-icon fas fa-exchange-alt"></i>
+                        <p>Transaksi</p>
+                    </a>
                 </li>
                 <?php if(auth()->guard()->check()): ?>
                     <li class="nav-item">
