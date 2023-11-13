@@ -18,13 +18,13 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>Dashboard</p>
                     </a>
-                <li class="nav-item">
-                    <a href="/admin/transaksi" class="nav-link {{ Request::is('admin/transaksi') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-exchange-alt"></i>
-                        <p>Transaksi</p>
-                    </a>
-                </li>
-                @auth
+                    @auth
+                    <li class="nav-item">
+                        <a href="/admin/transaksi" class="nav-link {{ Request::is('admin/transaksi') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-exchange-alt"></i>
+                            <p>Transaksi</p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="/admin/produk" class="nav-link {{ Request::is('admin/produk*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-table"></i>

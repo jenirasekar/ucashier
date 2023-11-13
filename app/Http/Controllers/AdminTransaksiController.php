@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
@@ -26,9 +27,14 @@ class AdminTransaksiController extends Controller
      */
     public function create()
     {
+        $id_produk = request('id');
+        $p_detail = Produk::find($id_produk);
+
         $data = [
             'title' => 'Tambah Transaksi',
             'transaksi' => Transaksi::get(),
+            'produk' => Produk::get(),
+            'p_detail' => $p_detail,  
             'content' => 'admin.transaksi.create',
         ];
 
