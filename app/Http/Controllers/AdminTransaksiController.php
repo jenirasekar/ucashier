@@ -30,11 +30,27 @@ class AdminTransaksiController extends Controller
         $id_produk = request('id');
         $p_detail = Produk::find($id_produk);
 
+        $act = request('act');
+        $qty = request('qty');
+        if ($act == 'min') {
+            if ($qty <= 1) {
+                $qty = 1;
+            } else {
+                $qty = $qty - 1;
+            }
+        } else {
+            $qty = $qty + 1;
+        }
+
+        $subtotal = $qty * $p_detail->harga;
+
         $data = [
             'title' => 'Tambah Transaksi',
             'transaksi' => Transaksi::get(),
             'produk' => Produk::get(),
-            'p_detail' => $p_detail,  
+            'p_detail' => $p_detail,
+            'qty' => $qty,
+            'subtotal' => $subtotal,
             'content' => 'admin.transaksi.create',
         ];
 

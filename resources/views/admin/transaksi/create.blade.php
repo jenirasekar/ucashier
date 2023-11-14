@@ -12,9 +12,10 @@
                         </div>
                         <div class="col-md-8">
                             <form action="" method="get">
-                                <div class="d-flex"> 
+                                <div class="d-flex">
                                     <select name="id" id="id" class="form-control">
-                                        <option value="">-- {{ isset($p_detail) ? $p_detail->nama : 'Nama Produk' }} --</option>
+                                        <option value="">--
+                                            {{ isset($p_detail) ? $p_detail->nama : 'Nama Produk' }} --</option>
                                         @foreach ($produk as $item)
                                             <option value="{{ $item->id }}">{{ $item->id . ' - ' . $item->nama }}
                                             </option>
@@ -49,9 +50,12 @@
                         </div>
                         <div class="col-md-8">
                             <div class="d-flex">
-                                <button class="btn btn-primary"><i class="fas fa-minus"></i></button>
-                                <input type="number" name="qty" id="qty" class="form-control">
-                                <button class="btn btn-primary"><i class="fas fa-plus"></i></button>
+                                <a href="/admin/transaksi/create?id={{ request('id') }}&act=min&qty={{ $qty }}"
+                                    class="btn btn-primary"><i class="fas fa-minus"></i></a>
+                                <input type="number" name="qty" id="qty" class="form-control"
+                                    value="{{ $qty }}">
+                                <a href="/admin/transaksi/create?id={{ request('id') }}&act=plus&qty={{ $qty }}"
+                                    class="btn btn-primary"><i class="fas fa-plus"></i></a>
                             </div>
                         </div>
                     </div>
@@ -59,7 +63,7 @@
                         <div class="col-md-4">
                         </div>
                         <div class="col-md-8">
-                            <h5>Subtotal:</h5>
+                            <h5>Subtotal: Rp. {{ $subtotal }}</h5>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -97,8 +101,13 @@
                         </table>
                     </div>
                     <div class="row mt-2">
-                        <a href="" class="btn btn-success"><i class="fas fa-file"></i> Pending</a>
-                        <a href="" class="btn btn-primary"><i class="fas fa-check"></i> Selesai</a>
+                        <div class="col-sm-8">
+                            <a href="" class="btn btn-success">Pending</a>
+                            <a href="" class="btn btn-primary">Selesai</a>
+                        </div>
+                        <div class="col-sm-4">
+
+                        </div>
                     </div>
                 </div>
             </div>
