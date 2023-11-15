@@ -6,12 +6,12 @@
                     <h5 style="font-weight: bold">{{ $title }}</h5>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="id" class="col-form-label">Kode Produk</label>
-                        </div>
-                        <div class="col-md-8">
-                            <form action="" method="get">
+                    <form action="" method="get">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="id" class="col-form-label">Kode Produk</label>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="d-flex">
                                     <select name="id" id="id" class="form-control">
                                         <option value="">--
@@ -23,9 +23,10 @@
                                     </select>
                                     <button type="submit" class="btn btn-primary">Pilih</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
+                    <form action="" method="post"></form>
                     <div class="row mt-3">
                         <div class="col-md-4">
                             <label for="nama_produk" class="col-form-label">Nama Produk</label>
