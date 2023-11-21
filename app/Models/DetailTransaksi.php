@@ -12,6 +12,10 @@ class DetailTransaksi extends Model
     protected $primaryKey = 'id';
     protected $table = 'detail_transaksi';
     protected $fillable = [
-
+        'id_transaksi',
+        'id_produk',
+        'nama_produk',
+        'qty',
+        'subtotal',
     ];
 }

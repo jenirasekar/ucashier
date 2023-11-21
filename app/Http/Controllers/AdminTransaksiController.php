@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailTransaksi;
 use App\Models\Produk;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -27,8 +28,11 @@ class AdminTransaksiController extends Controller
      */
     public function create()
     {
+        // $this->addTransaksi();
         $id_produk = request('id');
         $p_detail = Produk::find($id_produk);
+
+        // $detail_transaksi = DetailTransaksi::whereTransaksiId($id);
 
         $act = request('act');
         $qty = request('qty');
@@ -42,7 +46,10 @@ class AdminTransaksiController extends Controller
             $qty = $qty + 1;
         }
 
-        $subtotal = $qty * $p_detail->harga;
+        $subtotal = 0;
+        if ($p_detail) {
+            $subtotal = $qty * $p_detail->harga;
+        }
 
         $data = [
             'title' => 'Tambah Transaksi',
@@ -51,12 +58,23 @@ class AdminTransaksiController extends Controller
             'p_detail' => $p_detail,
             'qty' => $qty,
             'subtotal' => $subtotal,
+            'detail_transaksi' => DetailTransaksi::get(),
             'content' => 'admin.transaksi.create',
         ];
 
         return view('admin.layouts.wrapper', $data);
     }
 
+    protected function addTransaksi()
+    {
+        $data = [
+            'id_user' => auth()->user()->id,
+            'nama_kasir' => auth()->user()->name,
+            'total' => 0,
+        ];
+
+        Transaksi::create($data);
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -76,9 +94,44 @@ class AdminTransaksiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
-        //
+        $produk = Produk::get();
+
+        $id_produk = request('id');
+        $p_detail = Produk::find($id_produk);
+
+        $detail_transaksi = DetailTransaksi::whereTransaksiId($id)->get();
+
+        $act = request('act');
+        $qty = request('qty');
+        if ($act == 'min') {
+            if ($qty <= 1) {
+                $qty = 1;
+            } else {
+                $qty = $qty - 1;
+            }
+        } else {
+            $qty = $qty + 1;
+        }
+
+        $subtotal = 0;
+        if ($p_detail) {
+            $subtotal = $qty * $p_detail->harga;
+        }
+
+        $data = [
+            'title' => 'Tambah Transaksi',
+            'transaksi' => Transaksi::get(),
+            'produk' => Produk::get(),
+            'p_detail' => $p_detail,
+            'qty' => $qty,
+            'subtotal' => $subtotal,
+            'detail_transaksi' => $detail_transaksi,
+            'content' => 'admin.transaksi.create',
+        ];
+
+        return view('admin.layouts.wrapper', $data);
     }
 
     /**
