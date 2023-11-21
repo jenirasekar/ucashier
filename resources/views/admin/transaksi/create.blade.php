@@ -130,21 +130,21 @@
         <div class="col-6">
             <div class="card">
                 <div class="card-body">
-                    <form action="" method="post">
+                    <form action="{{ route('admin.transaksi.create') }}" method="get">
                         <div class="form-group">
-                            <label for="total_belanja" class="form-label">Total Belanja</label>
-                            <input type="number" name="total_belanja" id="total_belanja" class="form-control">
+                            <label for="total" class="form-label">Total Belanja</label>
+                            <input type="number" name="total" id="total" class="form-control" value="{{ $transaksi->total }}">
                         </div>
                         <div class="form-group">
                             <label for="dibayarkan" class="form-label">Dibayarkan</label>
-                            <input type="number" name="dibayarkan" id="dibayarkan" class="form-control">
+                            <input type="number" name="dibayarkan" id="dibayarkan" class="form-control" value="{{ request('dibayarkan') }}">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Hitung</button>
                         </div>
                         <div class="form-group">
                             <label for="kembalian" class="form-label">Uang Kembalian</label>
-                            <input type="number" name="kembalian" id="kembalian" class="form-control" disabled>
+                            <input type="number" name="kembalian" id="kembalian" class="form-control" value="{{ $kembalian }}" disabled>
                         </div>
                     </form>
                 </div>

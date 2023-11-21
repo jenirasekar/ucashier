@@ -31,6 +31,7 @@ class AdminTransaksiController extends Controller
         // $this->addTransaksi();
         $id_produk = request('id');
         $p_detail = Produk::find($id_produk);
+        $id_transaksi = request('id');
 
         // $detail_transaksi = DetailTransaksi::whereTransaksiId($id);
 
@@ -51,14 +52,20 @@ class AdminTransaksiController extends Controller
             $subtotal = $qty * $p_detail->harga;
         }
 
+        $transaksi = Transaksi::first();
+
+        $dibayarkan = request('dibayarkan');
+        $kembalian = $dibayarkan - $transaksi->total;
+
         $data = [
             'title' => 'Tambah Transaksi',
-            'transaksi' => Transaksi::get(),
+            'transaksi' => $transaksi,
             'produk' => Produk::get(),
             'p_detail' => $p_detail,
             'qty' => $qty,
             'subtotal' => $subtotal,
             'detail_transaksi' => DetailTransaksi::get(),
+            'kembalian' => $kembalian,
             'content' => 'admin.transaksi.create',
         ];
 
