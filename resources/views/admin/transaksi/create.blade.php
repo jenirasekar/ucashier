@@ -32,7 +32,7 @@
                         <input type="hidden" name="id_transaksi" value="1">
                         <input type="hidden" name="id_produk" value="{{ isset($p_detail) ? $p_detail->id : '' }}">
                         <input type="hidden" name="nama_produk" value="{{ isset($p_detail) ? $p_detail->nama : '' }}">
-                        <input type="hidden" name="subtotal" value="{{ $subtotal }}">
+                        <input type="hidden" name="subtotal" value="{{ formatRupiah($subtotal) }}">
 
                         <div class="row mt-3">
                             <div class="col-md-4">
@@ -102,13 +102,15 @@
                             </thead>
                             <tbody>
                                 @foreach ($detail_transaksi as $item)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->nama_produk }}</td>
-                                    <td>{{ $item->qty }}</td>
-                                    <td>{{ $item->subtotal }}</td>
-                                    <td><a href=""><i class="fas fa-times"></i></a></td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->nama_produk }}</td>
+                                        <td>{{ $item->qty }}</td>
+                                        <td>{{ $item->subtotal }}</td>
+                                        <td>
+                                            <a href="/admin/detail-transaksi/{{ $item->id }}/delete"><i class="fas fa-times"></i></a>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -133,18 +135,21 @@
                     <form action="{{ route('admin.transaksi.create') }}" method="get">
                         <div class="form-group">
                             <label for="total" class="form-label">Total Belanja</label>
-                            <input type="number" name="total" id="total" class="form-control" value="{{ $transaksi->total }}">
+                            <input type="number" name="total" id="total" class="form-control"
+                                value="{{ formatRupiah($transaksi->total) }}">
                         </div>
                         <div class="form-group">
                             <label for="dibayarkan" class="form-label">Dibayarkan</label>
-                            <input type="number" name="dibayarkan" id="dibayarkan" class="form-control" value="{{ request('dibayarkan') }}">
+                            <input type="number" name="dibayarkan" id="dibayarkan" class="form-control"
+                                value="{{ formatRupiah(request('dibayarkan')) }}">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Hitung</button>
                         </div>
                         <div class="form-group">
                             <label for="kembalian" class="form-label">Uang Kembalian</label>
-                            <input type="number" name="kembalian" id="kembalian" class="form-control" value="{{ $kembalian }}" disabled>
+                            <input type="number" name="kembalian" id="kembalian" class="form-control"
+                                value="{{ formatRupiah($kembalian) }}" disabled>
                         </div>
                     </form>
                 </div>

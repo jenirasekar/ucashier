@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminProdukController;
 use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\DetailTransaksiController;
+use App\Models\DetailTransaksi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
     * Detail Transaksi
     */
     Route::post('/admin/detail-transaksi/store', [DetailTransaksiController::class, 'store'])->name('detailtransaksi.store');
+    Route::get('/admin/detail-transaksi/{id}/delete', [DetailTransaksi::class, 'destroy'])->name('detailtransaksi.destroy');
 });
 
 /* Delete user */
