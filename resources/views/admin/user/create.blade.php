@@ -30,7 +30,8 @@
                             <div class="form-group">
                                 <label for="" class="form-label">Email</label>
                                 <input type="text" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" placeholder="Email" value="{{ isset($user) ? $user->email : old('email') }}">
+                                    name="email" placeholder="Email"
+                                    value="{{ isset($user) ? $user->email : old('email') }}">
 
                                 @error('email')
                                     <div class="invalid-feedback">
@@ -66,9 +67,12 @@
                             <div class="form-group">
                                 <label for="" class="form-label">Role</label>
                                 <select name="role" id="role" class="form-control">
-                                    <option value="admin">Admin</option>
-                                    <option value="manager">Manager</option>
-                                    <option value="kasir">Kasir</option>
+                                    <option value="admin" @if ($user->role == 'admin') selected @endif>Admin
+                                    </option>
+                                    <option value="manager" @if ($user->role == 'manager') selected @endif>Manager
+                                    </option>
+                                    <option value="kasir" @if ($user->role == 'kasir') selected @endif>Kasir
+                                    </option>
                                 </select>
 
                                 @error('re_password')
