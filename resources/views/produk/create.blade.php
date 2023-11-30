@@ -67,6 +67,28 @@
                             @enderror
                         </div>
                         <div class="mt-2">
+                            <label for="" class="form-label"> Tanggal Produksi</label>
+                            <input type="date" name="tgl_produksi"
+                                class="form-control @error('tgl_produksi') is-invalid @enderror" placeholder="tgl_produksi"
+                                value="{{ isset($produk) ? $produk->tgl_produksi : old('tgl_produksi') }}">
+                            @error('tgl_produksi')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mt-2">
+                            <label for="" class="form-label"> Tanggal Kadaluwarsa</label>
+                            <input type="date" name="tgl_kadaluwarsa"
+                                class="form-control @error('tgl_kadaluwarsa') is-invalid @enderror" placeholder="tgl_kadaluwarsa"
+                                value="{{ isset($produk) ? $produk->tgl_kadaluwarsa : old('tgl_kadaluwarsa') }}">
+                            @error('tgl_kadaluwarsa')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mt-2">
                             <label for="" class="col-form-label"> Gambar</label>
                             <input type="file" name="gambar"
                                 class="form-control-file @error('gambar') is-invalid @enderror" placeholder="Gambar"

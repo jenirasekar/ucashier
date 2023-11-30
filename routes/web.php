@@ -45,5 +45,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware('checkRole:kasir')->group(function () {
         Route::resource('/transaksi', AdminTransaksiController::class);
+        Route::post('/transaksi/detail/create', [AdminTransaksiDetailController::class, 'create']);
+        Route::get('/transaksi/detail/delete', [AdminTransaksiDetailController::class, 'delete']);
+        Route::get('/transaksi/detail/selesai/{id}', [AdminTransaksiDetailController::class, 'done']);
     });
 });

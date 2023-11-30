@@ -56,17 +56,19 @@ class AdminProdukController extends Controller
             'kategori_id'  => 'required',
             'harga'  => 'required|numeric',
             'stok'  => 'required|numeric',
+            'tgl_produksi'  => 'required',
+            'tgl_kadaluwarsa'  => 'required',
             'gambar' => 'nullable'
         ]);
 
-        if($request->hasFile('gambar')){
+        if ($request->hasFile('gambar')) {
             $gambar = $request->file('gambar');
-            $file_name = time()."_".$gambar->getClientOriginalName();
+            $file_name = time() . "_" . $gambar->getClientOriginalName();
 
             $storage = 'uploads/image/';
             $gambar->move($storage, $file_name);
             $data['gambar'] = $storage . $file_name;
-        }else {
+        } else {
             $data['gambar'] = null;
         }
 
@@ -88,7 +90,7 @@ class AdminProdukController extends Controller
     public function show($id)
     {
         //
-        
+
     }
 
     /**
@@ -125,16 +127,18 @@ class AdminProdukController extends Controller
             'kategori_id'  => 'required',
             'harga'  => 'required|numeric',
             'stok'  => 'required|numeric',
+            'tgl_produksi'  => 'required',
+            'tgl_kadaluwarsa'  => 'required',
         ]);
 
-        if($request->hasFile('gambar')){
+        if ($request->hasFile('gambar')) {
             $gambar = $request->file('gambar');
-            $file_name = time()."_".$gambar->getClientOriginalName();
+            $file_name = time() . "_" . $gambar->getClientOriginalName();
 
             $storage = 'uploads/image/';
             $gambar->move($storage, $file_name);
             $data['gambar'] = $storage . $file_name;
-        }else {
+        } else {
             $data['gambar'] = $produk->gambar;
         }
 

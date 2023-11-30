@@ -17,6 +17,8 @@ class Produk extends Model
         'kategori_id',
         'harga',
         'stok',
+        'tgl_kadaluwarsa',
+        'tgl_produksi',
         'gambar'
     ];
 }

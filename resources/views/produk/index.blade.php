@@ -12,6 +12,8 @@
                         <th>Nama</th>
                         <th>Harga</th>
                         <th>Stok</th>
+                        <th>Expired Date</th>
+                        <th>Production Date</th>
                         <th>Action</th>
 
                     </tr>
@@ -22,6 +24,10 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->harga }}</td>
                             <td>{{ $item->stok }}</td>
+                            <td>{{ $item->tgl_kadaluwarsa }}</td>
+                            <td>{{ $item->tgl_produksi }}</td>
+                            <td><img src="../../../public/{{ $item->gambar }}" alt="gambar produk"
+                                    style="width: 100px;"></td>
                             <td>
                                 <div class="d-flex">
                                     <a href="/produk/{{ $item->id }}/edit" class="btn btn-info btn-sm"><i
@@ -30,7 +36,8 @@
                                     <form action="/produk/{{ $item->id }}" method="POST">
                                         @method('delete')
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm ml-1" onclick="confirm('Apakah Anda yakin?')"><i
+                                        <button type="submit" class="btn btn-danger btn-sm ml-1"
+                                            onclick="confirm('Apakah Anda yakin?')"><i
                                                 class="fas fa-trash"></i></button>
                                     </form>
                                 </div>
