@@ -26,7 +26,7 @@
                             <td>{{ $item->stok }}</td>
                             <td>{{ $item->tgl_kadaluwarsa }}</td>
                             <td>{{ $item->tgl_produksi }}</td>
-                            <td><img src="../../../public/{{ $item->gambar }}" alt="gambar produk"
+                            <td><img src="{{ Storage::url('public/produk/' . $item->gambar) }}" alt="gambar produk"
                                     style="width: 100px;"></td>
                             <td>
                                 <div class="d-flex">

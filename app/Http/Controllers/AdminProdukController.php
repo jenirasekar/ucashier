@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Kategori;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminProdukController extends Controller
@@ -51,31 +52,29 @@ class AdminProdukController extends Controller
     public function store(Request $request)
     {
         //
-        $data = $request->validate([
+        $request->validate([
             'name'  => 'required',
             'kategori_id'  => 'required',
             'harga'  => 'required|numeric',
             'stok'  => 'required|numeric',
             'tgl_produksi'  => 'required',
             'tgl_kadaluwarsa'  => 'required',
-            'gambar' => 'nullable'
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif,jfif,webp',
         ]);
 
-        if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar');
-            $file_name = time() . "_" . $gambar->getClientOriginalName();
-
-            $storage = 'uploads/image/';
-            $gambar->move($storage, $file_name);
-            $data['gambar'] = $storage . $file_name;
-        } else {
-            $data['gambar'] = null;
-        }
-
-
+        $image = $request->file('gambar');
+        $image->storeAs('public/produk/', $image->hashName());
 
         // dd($data);
-        Produk::create($data);
+        Produk::create([
+            'name'  => $request->name,
+            'kategori_id'  => $request->kategori_id,
+            'harga'  => $request->harga,
+            'stok'  => $request->stok,
+            'tgl_produksi'  => $request->tgl_produksi,
+            'tgl_kadaluwarsa'  => $request->tgl_kadaluwarsa,
+            'gambar' => $image->hashName(),
+        ]);
         Alert::success('Sukses', 'Data Berhasil Ditambahkan');
 
         return redirect('/produk');
@@ -122,7 +121,7 @@ class AdminProdukController extends Controller
     {
         //
         $produk = Produk::find($id);
-        $data = $request->validate([
+        $request->validate([
             'name'  => 'required',
             'kategori_id'  => 'required',
             'harga'  => 'required|numeric',
@@ -132,17 +131,33 @@ class AdminProdukController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar');
-            $file_name = time() . "_" . $gambar->getClientOriginalName();
+            $image = $request->file('gambar');
+            $image->storeAs('public/produk', $image->hashName());
 
-            $storage = 'uploads/image/';
-            $gambar->move($storage, $file_name);
-            $data['gambar'] = $storage . $file_name;
+            if (Storage::exists('public/produk/' . $produk->gambar)) {
+                Storage::delete('public/produk/' . $produk->gambar);
+            }
+
+            $produk->update([
+                'gambar' => $image->hashName(),
+                'name'  => $request->name,
+                'kategori_id'  => $request->kategori_id,
+                'harga'  => $request->harga,
+                'stok'  => $request->stok,
+                'tgl_produksi'  => $request->tgl_produksi,
+                'tgl_kadaluwarsa'  => $request->tgl_kadaluwarsa,
+            ]);
         } else {
-            $data['gambar'] = $produk->gambar;
+            $produk->update([
+                'name'  => $request->name,
+                'kategori_id'  => $request->kategori_id,
+                'harga'  => $request->harga,
+                'stok'  => $request->stok,
+                'tgl_produksi'  => $request->tgl_produksi,
+                'tgl_kadaluwarsa'  => $request->tgl_kadaluwarsa,
+            ]);
         }
 
-        $produk->update($data);
         Alert::success('Sukses', 'Data Berhasil Diedit');
 
         return redirect('/produk');
