@@ -50,11 +50,6 @@ class User extends Authenticatable
 
     public function isManager()
     {
-        return $this->role === 'manager';
-    }
-
-    public function isKasir()
-    {
-        return $this->role === 'kasir';
+        return $this->role === 'petugas';
     }
 }

@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/admin/user', AdminUserController::class);
     });
 
-    Route::middleware('checkRole:manager')->group(function () {
+    Route::middleware('checkRole:petugas')->group(function () {
         Route::resource('/kategori', AdminKategoriController::class);
         Route::resource('/produk', AdminProdukController::class);
         Route::resource('/transaksi', AdminTransaksiController::class);
