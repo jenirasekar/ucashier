@@ -48,10 +48,6 @@
                                 </p>
                             </a>
                         </li>
-                    @endif
-
-                    @if (auth()->user()->isKasir())
-                        <!-- Display only for Kasir -->
                         <li class="nav-item">
                             <a href="/transaksi" class="nav-link {{ Request::is('transaksi*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-exchange-alt"></i>

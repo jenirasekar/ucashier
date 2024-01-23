@@ -69,9 +69,7 @@
                                 <select name="role" id="role" class="form-control">
                                     <option value="admin" @if ($user->role == 'admin') selected @endif>Admin
                                     </option>
-                                    <option value="manager" @if ($user->role == 'manager') selected @endif>Manager
-                                    </option>
-                                    <option value="kasir" @if ($user->role == 'kasir') selected @endif>Kasir
+                                    <option value="petugas" @if ($user->role == 'petugas') selected @endif>Petugas
                                     </option>
                                 </select>
 
