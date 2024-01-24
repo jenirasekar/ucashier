@@ -67,7 +67,6 @@ class AdminKategoriController extends Controller
     public function show($id)
     {
         //
-        
     }
 
     /**
@@ -99,7 +98,7 @@ class AdminKategoriController extends Controller
         //
         $kategori = Kategori::find($id);
         $data = $request->validate([
-            'name'  => 'required|unique:kategoris,name,'.$kategori->id
+            'name'  => 'required|unique:kategoris,name,' . $kategori->id
         ]);
         $kategori->update($data);
         Alert::success('Sukses', 'Data Berhasil Diedit');
@@ -119,5 +118,5 @@ class AdminKategoriController extends Controller
         $kategori->delete();
         Alert::success('Sukses', 'Data Berhasil Dihapus');
         return redirect('/kategori');
-    }  
+    }
 }
