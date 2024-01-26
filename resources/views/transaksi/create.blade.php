@@ -33,8 +33,6 @@
                     <input type="hidden" name="produk_name" value="{{ isset($p_detail) ? $p_detail->name : '' }}">
                     <input type="hidden" name="subtotal" value="{{ $subtotal }}">
 
-
-
                     <div class="row mt-1">
                         <div class="col-md-4">
                             <label for="" class="form-label">Nama Produk</label>
@@ -124,8 +122,31 @@
                     @endforeach
                 </table>
 
-                <a href="/transaksi/detail/selesai/{{ Request::segment(2) }}" class="btn btn-success"></i>Selesai</a>
-                <a href="" class="btn btn-info"></i>Pending</a>
+                <form action="/transaksi/detail/selesai/{{ Request::segment(2) }}">
+                    <div class="row mt-5 mb-3">
+                        <div class="col-md-4">
+                            <label for="pelanggan">Pelanggan</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select name="pelanggan_id" id="pelanggan" class="form-control">
+                                <option value="">
+                                    --{{ isset($pelanggan) ? $pelanggan->nama_pelanggan : 'Nama Pelanggan' }}--
+                                </option>
+                                @if ($pelanggan_list)
+                                    @foreach ($pelanggan_list as $pelanggan)
+                                        <option value="{{ $pelanggan->id }}"
+                                            {{ isset($pelanggan) && $pelanggan->id == $pelanggan->id ? '' : '' }}>
+                                            {{ $pelanggan->id . ' - ' . $pelanggan->nama_pelanggan }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success"></i>Selesai</button>
+                    <a href="" class="btn btn-info"></i>Pending</a>
+                </form>
 
             </div>
         </div>
@@ -140,8 +161,8 @@
                 <form action="" method="GET">
                     <div class="form-group">
                         <label for="">Total Belanja</label>
-                        <input type="number" value="{{ $transaksi->total }}" name="total_belanja" class="form-control"
-                            id="">
+                        <input type="number" value="{{ $transaksi->total }}" name="total_belanja"
+                            class="form-control" id="">
                     </div>
 
                     <div class="form-group">

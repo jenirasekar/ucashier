@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\Produk;
@@ -32,11 +33,10 @@ class AdminTransaksiController extends Controller
      */
     public function create(Request $request)
     {
-        //
         $data = [
             'user_id'   => auth()->user()->id,
             'kasir_name'   => auth()->user()->name,
-            'total'     => 0
+            'total'     => 0,
         ];
         $transaksi = Transaksi::create($data);
         return redirect('/transaksi/'.$transaksi->id.'/edit');
@@ -73,7 +73,10 @@ class AdminTransaksiController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pelanggan_id = request('id');
+        $pelanggan = Pelanggan::find($pelanggan_id);
+        $pelanggan_list = Pelanggan::all();
+
         $Produk = Produk::get();
 
         $produk_id = request('produk_id');
@@ -112,8 +115,11 @@ class AdminTransaksiController extends Controller
             'transaksi_detail'  => $transaksi_detail,
             'transaksi' => $transaksi,
             'kembalian' => $kembalian,
-            'content'   => 'transaksi/create'
+            'content'   => 'transaksi/create',
+            'pelanggan' => $pelanggan,
+            'pelanggan_list' => $pelanggan_list,
         ];
+
         return view('layouts.wrapper', $data);
     }
 

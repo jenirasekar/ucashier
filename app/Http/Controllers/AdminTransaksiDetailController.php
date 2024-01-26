@@ -31,7 +31,7 @@ class AdminTransaksiDetailController extends Controller
                 'subtotal'  => $request->subtotal,
             ];
             TransaksiDetail::create($data);
-            // mulai dari sini yaa
+            // mulai dari sini 
             $produk = Produk::find($produk_id);
             // ngambil stok lama
             $old_stok = $produk->stok;
@@ -81,7 +81,6 @@ class AdminTransaksiDetailController extends Controller
     function delete()
     {
         $id = request('id');
-        // maybe we can get the product id from this
         $td = TransaksiDetail::find($id);
 
         $transaksi = Transaksi::find($td->transaksi_id);
@@ -90,8 +89,6 @@ class AdminTransaksiDetailController extends Controller
         ];
         $transaksi->update($data);
 
-        // im so lazy so i just copied it from above
-        // why you spell produk_id, indonesian + eng
         $produk = Produk::find($td->produk_id);
         // ngambil stok lama
         $old_stok = $produk->stok;
@@ -101,18 +98,18 @@ class AdminTransaksiDetailController extends Controller
             'stok' => $old_stok + $td->qty
         ]);
 
-        // refresh is for if you have a dat, an you updated it, so get the fresh data (love sign if you understand <3333)
         // dd($produk->refresh());
 
         $td->delete();
         return redirect()->back();
     }
 
-    function done($id)
+    function done(Request $request, $id)
     {
-        $transaksi = Transaksi::first();
+        $transaksi = Transaksi::find($id);
         $data = [
-            'status' => 'selesai'
+            'pelanggan_id' => $request->pelanggan_id,
+            'status' => 'selesai',
         ];
         $transaksi->update($data);
         return redirect('/transaksi');
