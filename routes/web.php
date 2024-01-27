@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\AdminTransaksiDetailController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\StrukController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,5 +44,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transaksi/detail/delete', [AdminTransaksiDetailController::class, 'delete']);
         Route::get('/transaksi/detail/selesai/{id}', [AdminTransaksiDetailController::class, 'done']);
         Route::resource('/pelanggan', PelangganController::class);
+
+    Route::get('/generate-pdf', [StrukController::class, 'generatePDF']);
+
     });
 });
