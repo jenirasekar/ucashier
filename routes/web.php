@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminProdukController;
 use App\Http\Controllers\AdminTransaksiController;
 use App\Http\Controllers\AdminTransaksiDetailController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PelangganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,5 +42,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/transaksi/detail/create', [AdminTransaksiDetailController::class, 'create']);
         Route::get('/transaksi/detail/delete', [AdminTransaksiDetailController::class, 'delete']);
         Route::get('/transaksi/detail/selesai/{id}', [AdminTransaksiDetailController::class, 'done']);
+        Route::resource('/pelanggan', PelangganController::class);
     });
 });

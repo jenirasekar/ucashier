@@ -56,6 +56,14 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/pelanggan" class="nav-link {{ Request::is('pelanggan*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    Pelanggan
+                                </p>
+                            </a>
+                        </li>
                     @endif
                 @endauth
             </ul>
