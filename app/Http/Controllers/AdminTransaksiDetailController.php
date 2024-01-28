@@ -6,7 +6,7 @@ use App\Models\Produk;
 use Illuminate\Http\Request;
 use App\Models\TransaksiDetail;
 use App\Models\Transaksi;
-
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminTransaksiDetailController extends Controller
 {
@@ -112,6 +112,9 @@ class AdminTransaksiDetailController extends Controller
             'status' => 'selesai',
         ];
         $transaksi->update($data);
+
+        Alert::success('success', 'Transaksi berhasil!');
+
         return redirect('/transaksi');
     }
 }
