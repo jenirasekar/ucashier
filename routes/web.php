@@ -44,8 +44,5 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transaksi/detail/delete', [AdminTransaksiDetailController::class, 'delete']);
         Route::get('/transaksi/detail/selesai/{id}', [AdminTransaksiDetailController::class, 'done']);
         Route::resource('/pelanggan', PelangganController::class);
-
-    Route::get('/generate-pdf', [StrukController::class, 'generatePDF']);
-
     });
 });
