@@ -147,7 +147,6 @@
                     <button type="submit" class="btn btn-success"></i>Selesai</button>
                     <a href="" class="btn btn-info"></i>Pending</a>
                 </form>
-
             </div>
         </div>
     </div>
@@ -161,8 +160,8 @@
                 <form action="" method="GET">
                     <div class="form-group">
                         <label for="">Total Belanja</label>
-                        <input type="number" value="{{ $transaksi->total }}" name="total_belanja"
-                            class="form-control" id="">
+                        <input type="number" value="{{ $transaksi->total }}" name="total" class="form-control"
+                            id="">
                     </div>
 
                     <div class="form-group">
@@ -172,18 +171,17 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-block">Hitung</button>
+
+                    <hr>
+
+                    <div class="form-group">
+                        <label for="">Uang Kembalian</label>
+                        <input type="number" value="{{ $kembalian }}" readonly name="kembalian"
+                            class="form-control" id="">
+                    </div>
                 </form>
-
-                <hr>
-
-                <div class="form-group">
-                    <label for="">Uang Kembalian</label>
-                    <input type="number" value="{{ format_rupiah($kembalian) }}" disabled name="kembalian"
-                        class="form-control" id="">
-                </div>
-
-
             </div>
         </div>
     </div>
+</div>
 </div>

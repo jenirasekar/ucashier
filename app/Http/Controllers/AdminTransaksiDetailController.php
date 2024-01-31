@@ -6,12 +6,13 @@ use App\Models\Produk;
 use Illuminate\Http\Request;
 use App\Models\TransaksiDetail;
 use App\Models\Transaksi;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminTransaksiDetailController extends Controller
 {
-    //
-    function create(Request $request)
+    public function create(Request $request)
     {
         // die('masuk');
         // dd($request->all());
@@ -40,14 +41,10 @@ class AdminTransaksiDetailController extends Controller
                 'stok' => $old_stok - $request->qty
             ]);
 
-            // dd([
-            //     'oldstok' => $produk,
-            //     'qty' => $request->qty,
-            //     'new stok' => $old_stok - $request->qty
-            // ]);
-
             $dt = [
-                'total' => $request->subtotal + $transaksi->total
+                'total' => $request->subtotal + $transaksi->total,
+                'dibayarkan' => $request->dibayarkan,
+                'kembalian' => $request->dibayarkan - ($request->subtotal + $transaksi->total),
             ];
             $transaksi->update($dt);
         } else {
@@ -70,7 +67,9 @@ class AdminTransaksiDetailController extends Controller
             // itu di destroy data (maybe)
 
             $dt = [
-                'total' => $request->subtotal + $transaksi->total
+                'total' => $td->subtotal + $transaksi->total,
+                'dibayarkan' => $request->dibayarkan,
+                'kembalian' => $request->dibayarkan - ($td->subtotal + $transaksi->total),
             ];
             $transaksi->update($dt);
         }
@@ -107,11 +106,32 @@ class AdminTransaksiDetailController extends Controller
     function done(Request $request, $id)
     {
         $transaksi = Transaksi::find($id);
+        $struk = DB::table('transaksis')->join('transaksi_details', 'transaksi_details.transaksi_id', '=', 'transaksis.id')->join('produks', 'produks.id', '=', 'transaksis.produk_id')->join('pelanggans', 'pelanggans.id', '=', 'transaksis.pelanggans_id')
+            ->select(
+                'transaksis.id',
+                'transaksis.kasir_name',
+                'transaksis.total',
+                'transaksis.dibayarkan',
+                'transaksis.kembalian',
+                'transaksi_details.produk_name',
+                'transaksis_details.qty',
+                'transaksis_details.subtotal',
+                'produks.harga',
+                'pelanggans.nama_pelanggan'
+            );
         $data = [
             'pelanggan_id' => $request->pelanggan_id,
             'status' => 'selesai',
+            // 'struk' => $struk
         ];
         $transaksi->update($data);
+
+        // $timestamp = Carbon::now()->format('YmdHis');
+        // $filename = 'struk_' . $timestamp . '.pdf';
+
+        // $pdf = app('dompdf.wrapper')->loadView('transaksi.struk', $data);
+
+        // return $pdf->download($filename);
 
         Alert::success('success', 'Transaksi berhasil!');
 

@@ -15,9 +15,12 @@ return new class extends Migration
     {
         Schema::table('transaksis', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
-            
-            $table->unsignedBigInteger('pelanggan_id');
+
+            $table->unsignedBigInteger('pelanggan_id')->nullable();
             $table->foreign('pelanggan_id')->references('id')->on('pelanggans');
+
+            $table->unsignedBigInteger('produk_id')->nullable();
+            $table->foreign('produk_id')->references('id')->on('produks');
         });
 
         Schema::table('transaksi_details', function (Blueprint $table) {

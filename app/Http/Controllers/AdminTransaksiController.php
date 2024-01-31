@@ -17,8 +17,7 @@ class AdminTransaksiController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $data = [           
+        $data = [
             'title'     => 'Manajemen transaksi',
             'transaksi' => Transaksi::orderBy('created_at', 'DESC')->paginate(10),
             'content'   => 'transaksi/index'
@@ -37,10 +36,11 @@ class AdminTransaksiController extends Controller
             'user_id'   => auth()->user()->id,
             'kasir_name'   => auth()->user()->name,
             'total'     => 0,
+            'dibayarkan' => 0,
+            'kembalian' => 0
         ];
         $transaksi = Transaksi::create($data);
-        return redirect('/transaksi/'.$transaksi->id.'/edit');
-        
+        return redirect('/transaksi/' . $transaksi->id . '/edit');
     }
 
     /**
@@ -85,19 +85,19 @@ class AdminTransaksiController extends Controller
         $transaksi_detail = TransaksiDetail::whereTransaksiId($id)->get();
 
         $act = request('act');
-        $qty = request ('qty');
-        if($act == 'min'){
-            if($qty <= 1){
+        $qty = request('qty');
+        if ($act == 'min') {
+            if ($qty <= 1) {
                 $qty = 1;
-            }else{
+            } else {
                 $qty = $qty - 1;
-            }           
-        }else{
+            }
+        } else {
             $qty = $qty + 1;
         }
 
         $subtotal = 0;
-        if($p_detail){
+        if ($p_detail) {
             $subtotal = $qty * $p_detail->harga;
         }
 
@@ -106,7 +106,7 @@ class AdminTransaksiController extends Controller
         $dibayarkan = request('dibayarkan');
         $kembalian = $dibayarkan - $transaksi->total;
 
-        $data = [           
+        $data = [
             'title'     => 'Tambah transaksi',
             'produk'    => $Produk,
             'p_detail'  => $p_detail,

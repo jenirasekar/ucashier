@@ -46,3 +46,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/pelanggan', PelangganController::class);
     });
 });
+
+Route::get('/struk', function() {
+    return view('transaksi.struk');
+});
