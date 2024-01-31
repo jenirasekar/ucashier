@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->bigInteger('total');
+            $table->bigInteger('dibayarkan')->nullable();
+            $table->bigInteger('kembalian')->nullable();
             $table->string('kasir_name')->nullable();
             $table->enum('status', ['selesai', 'pending'])->default('pending');
             $table->timestamps();
