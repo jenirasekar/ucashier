@@ -30,5 +30,7 @@
 <script src="/vendor/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/vendor/admin/dist/js/adminlte.min.js"></script>
+{{-- Bootstrap stepper --}}
+<script src="/vendor/admin/plugins/bs-stepper/js/bs-stepper.min.js"></script>
 </body>
 </html>

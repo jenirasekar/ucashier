@@ -42,7 +42,7 @@ class AdminTransaksiDetailController extends Controller
             ]);
 
             $dt = [
-                'total' => $request->subtotal + $transaksi->total,
+                'total' => $transaksi->total,
                 'dibayarkan' => $request->dibayarkan,
                 'kembalian' => $request->dibayarkan - ($request->subtotal + $transaksi->total),
             ];

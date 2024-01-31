@@ -71,9 +71,9 @@ class AdminTransaksiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $pelanggan_id = request('id');
+        $pelanggan_id = $request->id;
         $pelanggan = Pelanggan::find($pelanggan_id);
         $pelanggan_list = Pelanggan::all();
 
