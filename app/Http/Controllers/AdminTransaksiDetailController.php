@@ -99,8 +99,25 @@ class AdminTransaksiDetailController extends Controller
     public function done(Request $request, $id)
     {
         $transaksi = Transaksi::find($id);
+        $data_struk = DB::table('transaksis')
+            ->join('transaksi_details', 'transaksi_details.transaksi_id', '=', 'transaksis.id')
+            ->join('produks', 'produks.id', '=', 'transaksi_details.produk_id')
+            ->join('pelanggans', 'pelanggans.id', '=', 'transaksis.pelanggan_id')
+            ->select(
+                'transaksis.id',
+                'transaksis.kasir_name',
+                'transaksis.total',
+                'transaksis.dibayarkan',
+                'transaksis.kembalian',
+                'transaksis.created_at',
+                'transaksi_details.produk_name',
+                'transaksi_details.qty',
+                'transaksi_details.subtotal',
+                'produks.harga',
+                'pelanggans.nama_pelanggan'
+            )->first();
 
-        if (!$transaksi) {
+        if (!$transaksi || !$data_struk) {
             return response()->json(['success' => false]);
         }
 
@@ -111,7 +128,12 @@ class AdminTransaksiDetailController extends Controller
 
         $transaksi->update($data);
 
-        return response()->json(['success' => true]);
+        $timestamp = Carbon::now()->format('YmdHis');
+        $filename = 'struk_' . $timestamp . '.pdf';
+
+        $pdf = app('dompdf.wrapper')->loadView('transaksi.struk', ['data_struk' => $data_struk]);
+
+        return $pdf->download($filename);
     }
 
     public function pembayaran(Request $request, $id)
