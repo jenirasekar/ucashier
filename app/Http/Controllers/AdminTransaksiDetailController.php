@@ -40,7 +40,6 @@ class AdminTransaksiDetailController extends Controller
             ]);
 
             $dt = [
-                // kurang subtotalnya, jadi tadi valuenya total cuma $transaksi->total yang mana masih 0 harusnya ditambah subtotal dari transaksi detail
                 'total' => $request->subtotal + $transaksi->total,
                 'dibayarkan' => $request->dibayarkan,
                 'kembalian' => $request->dibayarkan - ($request->subtotal + $transaksi->total),
@@ -61,9 +60,6 @@ class AdminTransaksiDetailController extends Controller
             $produk->update([
                 'stok' => $old_stok - $request->qty
             ]);
-
-            // trus masih ada pr kalau produknya gajadi dibeli berarti stoknya balik lagi
-            // itu di destroy data (maybe)
 
             $dt = [
                 'total' => $request->subtotal + $transaksi->total,
@@ -100,7 +96,7 @@ class AdminTransaksiDetailController extends Controller
         return redirect()->back();
     }
 
-    function done(Request $request, $id)
+    public function done(Request $request, $id)
     {
         $transaksi = Transaksi::find($id);
 

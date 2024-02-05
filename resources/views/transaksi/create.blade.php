@@ -150,21 +150,22 @@
                                 </tbody>
                             </table>
 
-                            <form action="{{ route('pembayaran', Request::segment(2)) }}" id="form-pembayaran">
+                            <form action="{{ route('done', Request::segment(2)) }}" id="form-pembayaran"
+                                method="post">
                                 <div class="row mt-5 mb-3">
                                     <div class="col-md-4">
                                         <label for="pelanggan">Pelanggan</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <select name="pelanggan_id" id="pelanggan" class="form-control">
-                                            <option value="{{ old('nama_pelanggan') }}">
+                                        <select name="pelanggan_id" id="pelanggan_id" class="form-control">
+                                            <option value="">
                                                 --{{ isset($pelanggan) ? $pelanggan->nama_pelanggan : 'Nama Pelanggan' }}--
                                             </option>
                                             @if ($pelanggan_list)
-                                                @foreach ($pelanggan_list as $pelanggan)
-                                                    <option value="{{ $pelanggan->id }}"
-                                                        {{ isset($pelanggan) && $pelanggan->id == $pelanggan->id ? '' : '' }}>
-                                                        {{ $pelanggan->id . ' - ' . $pelanggan->nama_pelanggan }}
+                                                @foreach ($pelanggan_list as $item)
+                                                    <option value="{{ $item->id }}"
+                                                        {{ $transaksi->pelanggan_id == $item->id ? 'selected' : '' }}>
+                                                        {{ $item->id . ' - ' . $item->nama_pelanggan }}
                                                     </option>
                                                 @endforeach
                                             @endif
@@ -246,14 +247,12 @@
         }
 
         function done() {
-            var formData = new FormData(document.getElementById('form-pembayaran'));
-
             $.ajax({
-                type: 'get',
+                type: 'GET',
                 url: '{{ route('done', Request::segment(2)) }}',
-                data: formData,
-                processData: false,
-                contentType: false,
+                data: {
+                    pelanggan_id: $("#pelanggan_id").val()
+                },
                 success: function(response) {
                     if (response.success) {
                         stepper.to(2);
@@ -277,7 +276,6 @@
             const inputKembalian = document.getElementById('kembalian');
 
             const kembalian = dibayarkan - totalTransaksi;
-            console.log(kembalian);
             inputKembalian.value = kembalian;
         });
     });
