@@ -42,11 +42,12 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/transaksi', AdminTransaksiController::class);
         Route::post('/transaksi/detail/create', [AdminTransaksiDetailController::class, 'create']);
         Route::get('/transaksi/detail/delete', [AdminTransaksiDetailController::class, 'delete']);
-        Route::get('/transaksi/detail/selesai/{id}', [AdminTransaksiDetailController::class, 'done']);
+        Route::get('/transaksi/detail/selesai/{id}', [AdminTransaksiDetailController::class, 'done'])->name('done');
+        Route::post('/transaksi/pembayaran/{id}', [AdminTransaksiDetailController::class, 'pembayaran'])->name('pembayaran');
         Route::resource('/pelanggan', PelangganController::class);
     });
 });
 
-Route::get('/struk', function() {
+Route::get('/struk', function () {
     return view('transaksi.struk');
 });

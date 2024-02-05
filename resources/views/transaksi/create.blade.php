@@ -124,38 +124,40 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>QTY</th>
-                                    <th>Subtotal</th>
-                                    <th>#</th>
-                                </tr>
-
-                                @foreach ($transaksi_detail as $item)
+                            <table class="table" id="tabel-produk">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->produk_name }}</td>
-                                        <td>{{ $item->qty }}</td>
-                                        <td>{{ 'Rp.' . format_rupiah($item->subtotal) }}</td>
-                                        <td>
-                                            <a href="/transaksi/detail/delete?id={{ $item->id }}"><i
-                                                    class="fas fa-times"></i></a>
-                                        </td>
-
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>QTY</th>
+                                        <th>Subtotal</th>
+                                        <th>#</th>
                                     </tr>
-                                @endforeach
+                                </thead>
+                                <tbody>
+                                    @foreach ($transaksi_detail as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->produk_name }}</td>
+                                            <td>{{ $item->qty }}</td>
+                                            <td>{{ 'Rp.' . format_rupiah($item->subtotal) }}</td>
+                                            <td>
+                                                <a href="/transaksi/detail/delete?id={{ $item->id }}"><i
+                                                        class="fas fa-times"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
 
-                            <form action="/transaksi/detail/selesai/{{ Request::segment(2) }}">
+                            <form action="{{ route('pembayaran', Request::segment(2)) }}" id="form-pembayaran">
                                 <div class="row mt-5 mb-3">
                                     <div class="col-md-4">
                                         <label for="pelanggan">Pelanggan</label>
                                     </div>
                                     <div class="col-md-8">
                                         <select name="pelanggan_id" id="pelanggan" class="form-control">
-                                            <option value="">
+                                            <option value="{{ old('nama_pelanggan') }}">
                                                 --{{ isset($pelanggan) ? $pelanggan->nama_pelanggan : 'Nama Pelanggan' }}--
                                             </option>
                                             @if ($pelanggan_list)
@@ -170,8 +172,8 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="btn btn-success btn-next"
-                                    onclick="stepper.next()">Pembayaran</button>
+                                <button type="submit" class="btn btn-success btn-next"
+                                    onclick="done()">Pembayaran</button>
                             </form>
                         </div>
                     </div>
@@ -184,20 +186,21 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <form action="" method="GET">
+                            <form action="{{ route('pembayaran', Request::segment(2)) }}" method="post">
+                                @csrf
                                 <div class="form-group">
                                     <label for="">Total Belanja</label>
                                     <input type="number" value="{{ $transaksi->total }}" name="total"
-                                        class="form-control" id="">
+                                        class="form-control" id="total_transaksi">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="">Dibayarkan</label>
                                     <input type="number" name="dibayarkan" value="{{ request('dibayarkan') }}"
-                                        class="form-control" id="">
+                                        class="form-control" id="dibayarkan">
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Hitung</button>
+                                <button type="button" class="btn btn-primary" id="btnHitung">Hitung</button>
                                 <button type="submit" class="btn btn-success">Bayar</button>
                                 <button type="button" class="btn btn-secondary btn-prev">Lihat detail</button>
 
@@ -205,8 +208,8 @@
 
                                 <div class="form-group">
                                     <label for="">Uang Kembalian</label>
-                                    <input type="number" value="{{ $kembalian }}" readonly name="kembalian"
-                                        class="form-control" id="">
+                                    <input type="number" readonly name="kembalian" class="form-control"
+                                        id="kembalian">
                                 </div>
                             </form>
                         </div>
@@ -218,15 +221,64 @@
 </div>
 
 <script>
+    // kebetulan karna udah ada scriptnya disini, kutambahain logic hitungnya disini
     document.addEventListener('DOMContentLoaded', function() {
         var stepper = new Stepper(document.querySelector('.bs-stepper'), {
             linear: false
         });
-        document.querySelector('.btn-next').addEventListener('click', function() {
-            stepper.next();
-        });
+
         document.querySelector('.btn-prev').addEventListener('click', function() {
             stepper.previous();
+        });
+
+        document.querySelector('.btn-next').addEventListener('click', function() {
+            event.preventDefault();
+
+            if (isRow()) {
+                done();
+            }
+        });
+
+        function isRow() {
+            const tabel = document.querySelector('#tabel-produk');
+            const rows = tabel.querySelectorAll('tbody tr');
+            return rows.length > 0;
+        }
+
+        function done() {
+            var formData = new FormData(document.getElementById('form-pembayaran'));
+
+            $.ajax({
+                type: 'get',
+                url: '{{ route('done', Request::segment(2)) }}',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        stepper.to(2);
+                    } else {
+                        alert('Transaksi gagal!');
+                    }
+                },
+                error: function() {
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+        }
+
+
+        // code hitung
+        const btnHitung = document.getElementById('btnHitung');
+
+        btnHitung.addEventListener('click', function() {
+            const totalTransaksi = parseInt(document.getElementById('total_transaksi').value);
+            const dibayarkan = parseInt(document.getElementById('dibayarkan').value);
+            const inputKembalian = document.getElementById('kembalian');
+
+            const kembalian = dibayarkan - totalTransaksi;
+            console.log(kembalian);
+            inputKembalian.value = kembalian;
         });
     });
 </script>
