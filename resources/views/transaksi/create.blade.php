@@ -150,8 +150,7 @@
                                 </tbody>
                             </table>
 
-                            <form action="{{ route('done', Request::segment(2)) }}" id="form-pembayaran"
-                                method="post">
+                            <form action="{{ route('done', Request::segment(2)) }}" id="form-pembayaran">
                                 <div class="row mt-5 mb-3">
                                     <div class="col-md-4">
                                         <label for="pelanggan">Pelanggan</label>

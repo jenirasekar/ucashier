@@ -99,10 +99,23 @@ class AdminTransaksiDetailController extends Controller
     public function done(Request $request, $id)
     {
         $transaksi = Transaksi::find($id);
+
+        $data = [
+            'pelanggan_id' => $request->pelanggan_id,
+            'status' => 'belum bayar',
+        ];
+
+        $transaksi->update($data);
+        return response()->json(['success' => true]);
+    }
+
+    public function pembayaran(Request $request, $id)
+    {
+        $transaksi =  Transaksi::find($id);
         $data_struk = DB::table('transaksis')
             ->join('transaksi_details', 'transaksi_details.transaksi_id', '=', 'transaksis.id')
             ->join('produks', 'produks.id', '=', 'transaksi_details.produk_id')
-            ->join('pelanggans', 'pelanggans.id', '=', 'transaksis.pelanggan_id')
+            ->leftJoin('pelanggans', 'pelanggans.id', '=', 'transaksis.pelanggan_id')
             ->select(
                 'transaksis.id',
                 'transaksis.kasir_name',
@@ -117,13 +130,10 @@ class AdminTransaksiDetailController extends Controller
                 'pelanggans.nama_pelanggan'
             )->first();
 
-        if (!$transaksi || !$data_struk) {
-            return response()->json(['success' => false]);
-        }
-
         $data = [
-            'pelanggan_id' => $request->pelanggan_id,
-            'status' => 'belum bayar',
+            'status' => 'selesai',
+            'dibayarkan' => $request->dibayarkan,
+            'kembalian' => $request->kembalian
         ];
 
         $transaksi->update($data);
@@ -134,19 +144,6 @@ class AdminTransaksiDetailController extends Controller
         $pdf = app('dompdf.wrapper')->loadView('transaksi.struk', ['data_struk' => $data_struk]);
 
         return $pdf->download($filename);
-    }
-
-    public function pembayaran(Request $request, $id)
-    {
-        $transaksi =  Transaksi::find($id);
-
-        $data = [
-            'status' => 'selesai',
-            'dibayarkan' => $request->dibayarkan,
-            'kembalian' => $request->kembalian
-        ];
-
-        $transaksi->update($data);
 
         Alert::success('Sukses', 'Transaksi berhasil!');
 
