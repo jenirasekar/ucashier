@@ -135,20 +135,16 @@
             <hr>
             <div class="card-body">
                 <div class="row">
-                    <label for="" class="form-label">Subtotal</label>
-                    <p>{{ $data_struk->subtotal }}</p>
+                    <p><b>Subtotal: </b>{{ $data_struk->subtotal }}</p>
                 </div>
                 <div class="row">
-                    <label for="" class="form-label">Total</label>
-                    <p>{{ $data_struk->total }}</p>
+                    <p><b>Total: </b>{{ $data_struk->total }}</p>
                 </div>
                 <div class="row">
-                    <label for="" class="form-label">Tunai</label>
-                    <p>{{ $data_struk->dibayarkan }}</p>
+                    <p><b>Tunai: </b>{{ $data_struk->dibayarkan }}</p>
                 </div>
                 <div class="row">
-                    <label for="" class="form-label">Kembalian</label>
-                    <p>{{ $data_struk->kembalian }}</p>
+                    <p><b>Kembalian: </b>{{ $data_struk->kembalian }}</p>
                 </div>
             </div>
 
