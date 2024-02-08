@@ -114,22 +114,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data_struk as $produk)
-                            <tr>
-                                <td>
-                                    <p>{{ $produk->produk_name }}</p>
-                                </td>
-                                <td>
-                                    <p>{{ $produk->harga_produk }}</p>
-                                </td>
-                                <td>
-                                    <p>{{ $produk->qty }}</p>
-                                </td>
-                                <td>
-                                    <p>{{ $produk->subtotal_produk }}</p>
-                                </td>
-                            </tr>
-                        @endforeach
+                        <tr>
+                            <td>
+                                <p>{{ $data_struk->produk_name }}</p>
+                            </td>
+                            <td>
+                                <p>{{ $data_struk->harga_produk }}</p>
+                            </td>
+                            <td>
+                                <p>{{ $data_struk->qty }}</p>
+                            </td>
+                            <td>
+                                <p>{{ $data_struk->subtotal_produk }}</p>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
