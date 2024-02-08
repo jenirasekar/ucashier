@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('dibayarkan')->nullable();
             $table->bigInteger('kembalian')->nullable();
             $table->string('kasir_name')->nullable();
-            $table->enum('status', ['selesai', 'pending'])->default('pending');
+            $table->enum('status', ['selesai', 'pending', 'belum bayar'])->default('pending');
             $table->timestamps();
         });
     }

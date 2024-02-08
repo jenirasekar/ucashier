@@ -81,7 +81,7 @@
                 <table class="table">
                     <tr>
                         <td>
-                            <p>ID: #{{ $data_struk->id }}</p>
+                            <p>ID: #{{ $data_struk->transaksi_id }}</p>
                         </td>
                         <td>
                             <p>{{ $data_struk->created_at }}</p>
@@ -109,34 +109,33 @@
                                 <label for="" class="form-label">QTY</label>
                             </th>
                             <th>
-                                <label for="" class="form-label">Total</label>
+                                <label for="" class="form-label">Subtotal produk</label>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <p>{{ $data_struk->produk_name }}</p>
-                            </td>
-                            <td>
-                                <p>{{ $data_struk->harga }}</p>
-                            </td>
-                            <td>
-                                <p>{{ $data_struk->qty }}</p>
-                            </td>
-                            <td>
-                                <p>{{ $data_struk->harga }}</p>
-                            </td>
-                        </tr>
+                        @foreach ($data_struk as $produk)
+                            <tr>
+                                <td>
+                                    <p>{{ $produk->produk_name }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ $produk->harga_produk }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ $produk->qty }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ $produk->subtotal_produk }}</p>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
 
             <hr>
             <div class="card-body">
-                <div class="row">
-                    <p><b>Subtotal: </b>{{ $data_struk->subtotal }}</p>
-                </div>
                 <div class="row">
                     <p><b>Total: </b>{{ $data_struk->total }}</p>
                 </div>

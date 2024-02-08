@@ -117,7 +117,7 @@ class AdminTransaksiDetailController extends Controller
             ->join('produks', 'produks.id', '=', 'transaksi_details.produk_id')
             ->leftJoin('pelanggans', 'pelanggans.id', '=', 'transaksis.pelanggan_id')
             ->select(
-                'transaksis.id',
+                'transaksis.id as transaksi_id',
                 'transaksis.kasir_name',
                 'transaksis.total',
                 'transaksis.dibayarkan',
@@ -126,9 +126,12 @@ class AdminTransaksiDetailController extends Controller
                 'transaksi_details.produk_name',
                 'transaksi_details.qty',
                 'transaksi_details.subtotal',
-                'produks.harga',
-                'pelanggans.nama_pelanggan'
-            )->first();
+                'produks.harga as harga_produk',
+                'pelanggans.nama_pelanggan',
+                DB::raw('transaksi_details.qty * produks.harga as subtotal_produk')
+            )
+            ->where('transaksi_details.id', $transaksi)
+            ->first();
 
         $data = [
             'status' => 'selesai',
