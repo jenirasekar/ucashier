@@ -10,4 +10,9 @@ class Transaksi extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function transaksi_detail_list()
+    {
+        return $this->hasMany(TransaksiDetail::class);
+    }
 }
