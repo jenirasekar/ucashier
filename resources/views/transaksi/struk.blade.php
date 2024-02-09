@@ -81,15 +81,15 @@
                 <table class="table">
                     <tr>
                         <td>
-                            <p>ID: #{{ $data_struk->transaksi_id }}</p>
+                            <p>ID: #{{ $transaksi->id }}</p>
                         </td>
                         <td>
-                            <p>{{ $data_struk->created_at }}</p>
+                            <p>{{ $transaksi->created_at }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p>Kasir: {{ $data_struk->kasir_name }}</p>
+                            <p>Kasir: {{ $transaksi->kasir_name }}</p>
                         </td>
                     </tr>
                 </table>
@@ -114,19 +114,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($transaksi->transaksi_detail_list as $td_list)
+                        @foreach ($data_struk as $item)
                             <tr>
                                 <td>
-                                    <p>{{ $td_list->produk_name }}</p>
+                                    <p>{{ $item->produk_name }}</p>
                                 </td>
                                 <td>
-                                    <p>{{ $td_list->harga_produk }}</p>
+                                    <p>{{ $item->harga_produk }}</p>
                                 </td>
                                 <td>
-                                    <p>{{ $td_list->qty }}</p>
+                                    <p>{{ $item->qty }}</p>
                                 </td>
                                 <td>
-                                    <p>{{ $td_list->subtotal_produk }}</p>
+                                    <p>{{ $item->subtotal_produk }}</p>
                                 </td>
                             </tr>
                         @endforeach
@@ -137,13 +137,13 @@
             <hr>
             <div class="card-body">
                 <div class="row">
-                    <p><b>Total: </b>{{ $data_struk->total }}</p>
+                    <p><b>Total: </b>{{ $transaksi->total }}</p>
                 </div>
                 <div class="row">
-                    <p><b>Tunai: </b>{{ $data_struk->dibayarkan }}</p>
+                    <p><b>Tunai: </b>{{ $transaksi->dibayarkan }}</p>
                 </div>
                 <div class="row">
-                    <p><b>Kembalian: </b>{{ $data_struk->kembalian }}</p>
+                    <p><b>Kembalian: </b>{{ $transaksi->kembalian }}</p>
                 </div>
             </div>
 

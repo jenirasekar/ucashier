@@ -18,7 +18,7 @@ class AdminTransaksiController extends Controller
     public function index(Request $request)
     {
         $data = [
-            'title'     => 'Manajemen transaksi',
+            'title'     => 'Riawayat transaksi',
             'transaksi' => Transaksi::orderBy('created_at', 'DESC')->paginate(10),
             'content'   => 'transaksi/index'
         ];
