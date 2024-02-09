@@ -114,20 +114,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <p>{{ $data_struk->produk_name }}</p>
-                            </td>
-                            <td>
-                                <p>{{ $data_struk->harga_produk }}</p>
-                            </td>
-                            <td>
-                                <p>{{ $data_struk->qty }}</p>
-                            </td>
-                            <td>
-                                <p>{{ $data_struk->subtotal_produk }}</p>
-                            </td>
-                        </tr>
+                        @foreach ($transaksi->transaksi_detail_list as $td_list)
+                            <tr>
+                                <td>
+                                    <p>{{ $td_list->produk_name }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ $td_list->harga_produk }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ $td_list->qty }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ $td_list->subtotal_produk }}</p>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

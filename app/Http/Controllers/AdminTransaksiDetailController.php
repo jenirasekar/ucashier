@@ -129,8 +129,7 @@ class AdminTransaksiDetailController extends Controller
                 'produks.harga as harga_produk',
                 'pelanggans.nama_pelanggan',
                 DB::raw('transaksi_details.qty * produks.harga as subtotal_produk')
-            )->where('transaksi_details.id', $transaksi)
-            ->get();
+            )->first();
 
         $data = [
             'status' => 'selesai',
@@ -143,8 +142,8 @@ class AdminTransaksiDetailController extends Controller
         $timestamp = Carbon::now()->format('YmdHis');
         $filename = 'struk_' . $timestamp . '.pdf';
 
-        $pdf = app('dompdf.wrapper')->loadView('transaksi.struk', ['data_struk' => $data_struk]);
-        $pdf->download($filename);
+        $pdf = app('dompdf.wrapper')->loadView('transaksi.struk', ['data_struk' => $data_struk, 'transaksi' => $transaksi]);
+        return $pdf->download($filename);
 
         Alert::success('Sukses', 'Transaksi berhasil!');
 
