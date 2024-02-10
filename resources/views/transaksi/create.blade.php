@@ -221,7 +221,6 @@
 </div>
 
 <script>
-    // kebetulan karna udah ada scriptnya disini, kutambahain logic hitungnya disini
     document.addEventListener('DOMContentLoaded', function() {
         var stepper = new Stepper(document.querySelector('.bs-stepper'), {
             linear: false
@@ -246,23 +245,30 @@
         }
 
         function done() {
-            $.ajax({
-                type: 'GET',
-                url: '{{ route('done', Request::segment(2)) }}',
-                data: {
-                    pelanggan_id: $("#pelanggan_id").val()
-                },
-                success: function(response) {
-                    if (response.success) {
-                        stepper.to(2);
+            fetch('{{ route('done', Request::segment(2)) }}', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({
+                        pelanggan_id: $("#pelanggan_id").val()
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        stepper.next();
+                        window.open('{{ route('cetak', Request::segment(2)) }}', '_blank');
+                        window.location = '{{ route('table-transaksi') }}';
                     } else {
                         alert('Transaksi gagal!');
                     }
-                },
-                error: function() {
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                     alert('Something went wrong. Please try again.');
-                }
-            });
+                });
         }
 
 
