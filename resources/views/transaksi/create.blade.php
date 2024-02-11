@@ -201,7 +201,7 @@
                                 </div>
 
                                 <button type="button" class="btn btn-primary" id="btnHitung">Hitung</button>
-                                <button class="btn btn-success" onclick="pembayaran()">Bayar</button>
+                                <button type="button" class="btn btn-success" onclick="pembayaran()">Bayar</button>
                                 <button type="button" class="btn btn-secondary btn-prev">Lihat detail</button>
 
                                 <hr>
