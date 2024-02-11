@@ -150,7 +150,7 @@
                                 </tbody>
                             </table>
 
-                            <form action="{{ route('done', Request::segment(2)) }}" id="form-pembayaran">
+                            <form action="{{ route('updatePelanggan', Request::segment(2)) }}" id="form-pembayaran">
                                 <div class="row mt-5 mb-3">
                                     <div class="col-md-4">
                                         <label for="pelanggan">Pelanggan</label>
@@ -172,8 +172,8 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-success btn-next"
-                                    onclick="done()">Pembayaran</button>
+                                <button type="button" class="btn btn-success btn-next"
+                                    onclick="updatePelanggan()">Bayar</button>
                             </form>
                         </div>
                     </div>
@@ -201,7 +201,7 @@
                                 </div>
 
                                 <button type="button" class="btn btn-primary" id="btnHitung">Hitung</button>
-                                <button type="submit" class="btn btn-success">Bayar</button>
+                                <button class="btn btn-success" onclick="pembayaran()">Bayar</button>
                                 <button type="button" class="btn btn-secondary btn-prev">Lihat detail</button>
 
                                 <hr>
@@ -230,11 +230,11 @@
             stepper.previous();
         });
 
-        document.querySelector('.btn-next').addEventListener('click', function() {
+        document.querySelector('.btn-next').addEventListener('click', function(event) {
             event.preventDefault();
 
             if (isRow()) {
-                done();
+                updatePelanggan();
             }
         });
 
@@ -244,44 +244,61 @@
             return rows.length > 0;
         }
 
-        function done() {
-            fetch('{{ route('done', Request::segment(2)) }}', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-Token': '{{ csrf_token() }}',
-                    },
-                    body: JSON.stringify({
-                        pelanggan_id: $("#pelanggan_id").val()
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        stepper.next();
-                        window.open('{{ route('cetak', Request::segment(2)) }}', '_blank');
-                        window.location = '{{ route('table-transaksi') }}';
+        function updatePelanggan() {
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('updatePelanggan', Request::segment(2)) }}',
+                data: {
+                    pelanggan_id: $("#pelanggan_id").val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        stepper.to(2);
                     } else {
                         alert('Transaksi gagal!');
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
+                },
+                error: function() {
                     alert('Something went wrong. Please try again.');
-                });
+                }
+            });
         }
 
+        function pembayaran() {
+            var dibayarkanValue = $("#dibayarkan").val();
+            var kembalianValue = $("#kembalian").val();
 
-        // code hitung
-        const btnHitung = document.getElementById('btnHitung');
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('pembayaran', Request::segment(2)) }}',
+                data: {
+                    dibayarkan: dibayarkanValue,
+                    kembalian: kembalianValue
+                },
+                success: function(response) {
+                    if (response.success) {
+                        window.open("{{ route('cetakStruk', Request::segment(2)) }}")
+                        window.location = "{{ route('table-transaksi') }}";
+                    } else {
+                        alert('Pembayaran gagal!');
+                    }
+                },
+                error: function() {
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+        }
+    });
 
-        btnHitung.addEventListener('click', function() {
-            const totalTransaksi = parseInt(document.getElementById('total_transaksi').value);
-            const dibayarkan = parseInt(document.getElementById('dibayarkan').value);
-            const inputKembalian = document.getElementById('kembalian');
+    // hitung pembayaran
+    const btnHitung = document.getElementById('btnHitung');
 
-            const kembalian = dibayarkan - totalTransaksi;
-            inputKembalian.value = kembalian;
-        });
+    btnHitung.addEventListener('click', function() {
+        const totalTransaksi = parseInt(document.getElementById('total_transaksi').value);
+        const dibayarkan = parseInt(document.getElementById('dibayarkan').value);
+        const inputKembalian = document.getElementById('kembalian');
+
+        const kembalian = dibayarkan - totalTransaksi;
+        inputKembalian.value = kembalian;
     });
 </script>

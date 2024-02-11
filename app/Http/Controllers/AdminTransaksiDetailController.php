@@ -96,7 +96,7 @@ class AdminTransaksiDetailController extends Controller
         return redirect()->back();
     }
 
-    public function done(Request $request, $id)
+    public function updatePelanggan(Request $request, $id)
     {
         $transaksi = Transaksi::find($id);
 
@@ -106,6 +106,7 @@ class AdminTransaksiDetailController extends Controller
         ];
 
         $transaksi->update($data);
+
         return response()->json(['success' => true]);
     }
 
@@ -124,7 +125,7 @@ class AdminTransaksiDetailController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function cetak($id)
+    public function cetakStruk($id)
     {
         $transaksi = Transaksi::find($id);
         $data_struk = DB::table('transaksis')

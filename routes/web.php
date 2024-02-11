@@ -42,13 +42,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transaksi', [AdminTransaksiController::class, 'index'])->name('table-transaksi');
         Route::post('/transaksi/detail/create', [AdminTransaksiDetailController::class, 'create']);
         Route::get('/transaksi/detail/delete', [AdminTransaksiDetailController::class, 'delete']);
-        Route::get('/transaksi/detail/selesai/{id}', [AdminTransaksiDetailController::class, 'done'])->name('done');
+        Route::get('/transaksi/detail/selesai/{id}', [AdminTransaksiDetailController::class, 'updatePelanggan'])->name('updatePelanggan');
         Route::post('/transaksi/pembayaran/{id}', [AdminTransaksiDetailController::class, 'pembayaran'])->name('pembayaran');
-        Route::get('/transaksi/cetak/{id}', 'TransaksiController@cetak')->name('cetak');
+        Route::get('/transaksi/cetak/{id}', [AdminTransaksiDetailController::class, 'cetakStruk'])->name('cetakStruk');
         Route::resource('/pelanggan', PelangganController::class);
     });
-});
-
-Route::get('/struk', function () {
-    return view('transaksi.struk');
 });
