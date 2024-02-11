@@ -201,7 +201,7 @@
                                 </div>
 
                                 <button type="button" class="btn btn-primary" id="btnHitung">Hitung</button>
-                                <button type="button" class="btn btn-success" onclick="pembayaran()">Bayar</button>
+                                <button type="button" class="btn btn-success" id="btnBayar">Bayar</button>
                                 <button type="button" class="btn btn-secondary btn-prev">Lihat detail</button>
 
                                 <hr>
@@ -236,6 +236,12 @@
             if (isRow()) {
                 updatePelanggan();
             }
+        });
+
+        document.getElementById('btnBayar').addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            pembayaran();
         });
 
         function isRow() {
