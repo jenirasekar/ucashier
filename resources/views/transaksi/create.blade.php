@@ -240,7 +240,7 @@
 
         document.getElementById('btnBayar').addEventListener('click', function(event) {
             event.preventDefault();
-            
+
             pembayaran();
         });
 
@@ -280,6 +280,9 @@
                 data: {
                     dibayarkan: dibayarkanValue,
                     kembalian: kembalianValue
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
                     if (response.success) {
