@@ -70,7 +70,7 @@
                                     <option value="admin" {{ isset($user) ? $user->role == 'admin' : '' }} selected>
                                         Admin
                                     </option>
-                                    <option value="admin" {{ isset($user) ? $user->role == 'petugas' : '' }} selected>
+                                    <option value="petugas" {{ isset($user) ? $user->role == 'petugas' : '' }} selected>
                                         Petugas
                                     </option>
                                 </select>
