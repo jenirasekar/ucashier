@@ -67,9 +67,11 @@
                             <div class="form-group">
                                 <label for="" class="form-label">Role</label>
                                 <select name="role" id="role" class="form-control">
-                                    <option value="admin" @if ($user->role == 'admin') selected @endif>Admin
+                                    <option value="admin" {{ isset($user) ? $user->role == 'admin' : '' }} selected>
+                                        Admin
                                     </option>
-                                    <option value="petugas" @if ($user->role == 'petugas') selected @endif>Petugas
+                                    <option value="admin" {{ isset($user) ? $user->role == 'petugas' : '' }} selected>
+                                        Petugas
                                     </option>
                                 </select>
 

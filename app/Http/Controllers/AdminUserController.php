@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -112,16 +113,16 @@ class AdminUserController extends Controller
         $user = User::find($id);
         $data = $request->validate([
             'name'  => 'required',
-            'email'  => 'required|email|unique:users,email,'.$user->id,
+            'email'  => 'required|email|unique:users,email,' . $user->id,
             // 'password'  => 'required',
             're_password'  => 'same:password',
             'role' => 'required',
 
         ]);
 
-        if($request->password != ''){
+        if ($request->password != '') {
             $data['password'] = Hash::make($request->password);
-        }else{
+        } else {
             $data['password']   = $user->password;
         }
 
