@@ -15,7 +15,7 @@ class AdminTransaksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $data = [
             'title'     => 'Riwayat transaksi',
@@ -32,15 +32,26 @@ class AdminTransaksiController extends Controller
      */
     public function create(Request $request)
     {
+        $transaksi_id =  request('id');
+        $transaksi = Transaksi::find($transaksi_id);
+        $detail_transaksi = TransaksiDetail::where('transaksi_id', $transaksi_id)->get();
+        $pelanggan_id = request('id');
+        $pelanggan = Pelanggan::find($pelanggan_id);
+        $pelanggan_list = Pelanggan::all();
+        $produk = Produk::get();
+        $produk_id = request('produk_id');
+        $detail_produk = Produk::find($produk_id);
         $data = [
-            'user_id'   => auth()->user()->id,
-            'kasir_name'   => auth()->user()->name,
-            'total'     => 0,
-            'dibayarkan' => 0,
-            'kembalian' => 0
+            'content' => 'transaksi/create',
+            'transaksi' => $transaksi,
+            'title'     => 'Tambah transaksi',
+            'produk'    => $produk,
+            'detail_produk'  => $detail_produk,
+            'detail_transaksi'  => $detail_transaksi,
+            'pelanggan' => $pelanggan,
+            'pelanggan_list' => $pelanggan_list,
         ];
-        $transaksi = Transaksi::create($data);
-        return redirect('/transaksi/' . $transaksi->id . '/edit');
+        return view('layouts.wrapper', $data);
     }
 
     /**
@@ -51,7 +62,21 @@ class AdminTransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $transaksi_id =  request('id');
+        $transaksi = Transaksi::find($transaksi_id);
+
+        $data = [
+            'user_id'   => auth()->user()->id,
+            'total'     => $request->total,
+            'dibayarkan' => $request->dibayarkan,
+            'kembalian' => $request->kembalian,
+            'kasir_name'   => auth()->user()->name,
+            'status' => 'selesai',
+            'pelanggan_id' => $request->pelanggan_id,
+        ];
+        $transaksi->update($data);
+
+        return redirect()->route('transaksi.monit');
     }
 
     /**
@@ -73,54 +98,6 @@ class AdminTransaksiController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $pelanggan_id = $request->id;
-        $pelanggan = Pelanggan::find($pelanggan_id);
-        $pelanggan_list = Pelanggan::all();
-
-        $Produk = Produk::get();
-
-        $produk_id = request('produk_id');
-        $p_detail = Produk::find($produk_id);
-
-        $transaksi_detail = TransaksiDetail::whereTransaksiId($id)->get();
-
-        $act = request('act');
-        $qty = request('qty');
-        if ($act == 'min') {
-            if ($qty <= 1) {
-                $qty = 1;
-            } else {
-                $qty = $qty - 1;
-            }
-        } else {
-            $qty = $qty + 1;
-        }
-
-        $subtotal = 0;
-        if ($p_detail) {
-            $subtotal = $qty * $p_detail->harga;
-        }
-
-        $transaksi = Transaksi::find($id);
-
-        $dibayarkan = request('dibayarkan');
-        $kembalian = $dibayarkan - $transaksi->total;
-
-        $data = [
-            'title'     => 'Tambah transaksi',
-            'produk'    => $Produk,
-            'p_detail'  => $p_detail,
-            'qty'       => $qty,
-            'subtotal'  => $subtotal,
-            'transaksi_detail'  => $transaksi_detail,
-            'transaksi' => $transaksi,
-            'kembalian' => $kembalian,
-            'content'   => 'transaksi/create',
-            'pelanggan' => $pelanggan,
-            'pelanggan_list' => $pelanggan_list,
-        ];
-
-        return view('layouts.wrapper', $data);
     }
 
     /**
