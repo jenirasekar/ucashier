@@ -42,7 +42,7 @@ class AdminTransaksiDetailController extends Controller
                 'qty'  => $request->qty,
                 'subtotal'  => $request->subtotal,
             ];
-            TransaksiDetail::create($data);
+            $dt = TransaksiDetail::create($data);
 
             $produk = Produk::find($id_produk);
             // ngambil stok lama
@@ -68,7 +68,8 @@ class AdminTransaksiDetailController extends Controller
             ]);
         }
 
-        return redirect()->route('transaksi.create');
+        // return redirect()->route('transaksi.create');
+        return response()->json($dt);
     }
 
     public function delete()
