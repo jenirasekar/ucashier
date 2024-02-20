@@ -121,15 +121,13 @@
         }
 
         $('#form_detail_transaksi').submit(function(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
+            event.preventDefault(); 
 
-            // Add your logic to send the form data to the server using AJAX
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'),
                 data: $(this).serialize(),
                 success: function(response) {
-                    // Assuming the server responds with the new detail_transaksi item
                     let newRow = `<tr>
                         <td>${response.produk_name}</td>
                         <td>${response.qty}</td>
@@ -141,11 +139,9 @@
 
                     $('#tbody_produk').append(newRow);
 
-                    // Update the total
                     total += parseInt(response.subtotal);
                     $('#total').val(total);
 
-                    // Reset the form
                     $('#form_detail_transaksi')[0].reset();
                 },
                 error: function(error) {
