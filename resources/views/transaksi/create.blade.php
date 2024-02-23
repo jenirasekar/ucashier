@@ -50,9 +50,8 @@
                     <input type="number" name="qty" id="qty" class="form-control">
                 </div>
             </div>
-            <div class="btn-tambah mt-2">
-                <button type="submit" class="btn btn-info" id="btn-tambah">Tambah</button>
-            </div>
+
+            <button type="button" class="btn btn-info" id="btn-tambah">Tambah</button>
         </form>
     </div>
 </div>
@@ -87,7 +86,43 @@
                 <label for="subtotal">Total</label>
             </div>
             <div class="col-3">
-                <input type="number" name="" id="total" class="form-control" readonly>
+                <input type="number" name="total" id="total" class="form-control" readonly>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="btn-bayar" data-toggle="modal"
+            data-target="#modal-bayar">Bayar</button>
+    </div>
+</div>
+
+{{-- modal untuk pembayaran --}}
+<div class="modal fade" tabindex="-1" id="modal-bayar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pembayaran</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('transaksi.store') }}" method="post">
+                    <div class="mb-2">
+                        <label for="total">Total</label>
+                        <input type="number" name="total" id="total-belanja" class="form-control" readonly>
+                    </div>
+                    <div class="mb-2">
+                        <label for="dibayarkan">Dibayarkan</label>
+                        <input type="number" name="dibayarkan" id="dibayarkan" class="form-control">
+                    </div>
+                    <div>
+                        <label for="kembalian">Kembalian</label>
+                        <input type="number" name="kembalian" id="kembalian-belanja" class="form-control" readonly>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Bayar</button>
             </div>
         </div>
     </div>
@@ -120,13 +155,13 @@
             }
         }
 
-        $('#form_detail_transaksi').submit(function(event) {
-            event.preventDefault(); 
-
+        // trigger untuk tambah produk ke keranjang
+        $('#btn-tambah').on('click', function(event) {
+            event.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
+                url: $('#form_detail_transaksi').attr('action'),
+                data: $('#form_detail_transaksi').serialize(),
                 success: function(response) {
                     let newRow = `<tr>
                         <td>${response.produk_name}</td>
@@ -142,7 +177,10 @@
                     total += parseInt(response.subtotal);
                     $('#total').val(total);
 
-                    $('#form_detail_transaksi')[0].reset();
+                    // total dalam modal
+                    $('#total-belanja').val(total);
+                    // clear input fields
+                    $('#id_produk, #harga, #qty, #subtotal').val('');
                 },
                 error: function(error) {
                     console.log(error);
@@ -150,5 +188,48 @@
             });
         });
 
+        // trigger untuk delete 1 row di keranjang
+        $(document).on('click', '.fa-times', function(event) {
+            event.preventDefault();
+
+            let deleteUrl = $(this).attr('href');
+
+            $.ajax({
+                url: deleteUrl,
+                method: 'GET',
+                success: function(response) {
+                    if (response && response.success) {
+                        let updatedCartData = response.updatedCartData;
+
+                        $('#tbody_produk').html('');
+                        $.each(updatedCartData, function(index, item) {
+                            let newRow = `<tr>
+                    <td>${item.produk_name}</td>
+                    <td>${item.qty}</td>
+                    <td>${item.subtotal}</td>
+                    <td>
+                        <a href="/transaksi/detail/delete?id=${item.id}" class="fas fa-times"></a>
+                    </td>
+                </tr>`;
+                            $('#tbody_produk').append(newRow);
+                        });
+
+                        let updatedTotal = response.updatedTotal;
+
+                        $('#total').val(updatedTotal);
+
+                        // total dalam modal
+                        $('#total-belanja').val(updatedTotal);
+                        // clear input fields
+                        $('#id_produk, #harga, #qty, #subtotal').val('');
+                    } else {
+                        console.log(response);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
     });
 </script>

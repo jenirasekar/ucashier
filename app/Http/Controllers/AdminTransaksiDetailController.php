@@ -35,16 +35,16 @@ class AdminTransaksiDetailController extends Controller
                 ]);
             }
             // store detail transaksi dengan mengambil id transaksi di atas
+            $produk = Produk::find($id_produk);
             $data = [
                 'produk_id' => $id_produk,
-                'produk_name' => $request->produk_name,
+                'produk_name' => $produk->name,
                 'transaksi_id'  => $transaksi->id,
                 'qty'  => $request->qty,
                 'subtotal'  => $request->subtotal,
             ];
             $dt = TransaksiDetail::create($data);
 
-            $produk = Produk::find($id_produk);
             // ngambil stok lama
             $old_stok = $produk->stok;
             // kalkulasi stok
@@ -77,24 +77,31 @@ class AdminTransaksiDetailController extends Controller
         $id = request('id');
         $detail_transaksi = TransaksiDetail::find($id);
 
-        $transaksi = Transaksi::find($detail_transaksi->transaksi_id);
-        $data = [
-            'total' => $transaksi->total - $detail_transaksi->subtotal,
-        ];
-        $transaksi->update($data);
+        if ($detail_transaksi) {
+            $transaksi = Transaksi::find($detail_transaksi->transaksi_id);
 
-        $produk = Produk::find($detail_transaksi->produk_id);
-        // ngambil stok lama
-        $old_stok = $produk->stok;
-        // kalkulasi stok
-        $produk->update([
-            // change it to addition
-            'stok' => $old_stok + $detail_transaksi->qty
-        ]);
+            if ($transaksi) {
+                $data = [
+                    'total' => $transaksi->total - $detail_transaksi->subtotal,
+                ];
+                $transaksi->update($data);
+            }
 
-        $detail_transaksi->delete();
+            $produk = Produk::find($detail_transaksi->produk_id);
+            // ngambil stok lama
+            $old_stok = $produk->stok;
+            // kalkulasi stok
+            $produk->update([
+                // change it to addition
+                'stok' => $old_stok + $detail_transaksi->qty
+            ]);
 
-        return response()->json(['success' => 'Record deleted successfully']);
+            $detail_transaksi->delete();
+
+            return response()->json(['success' => 'Record deleted successfully']);
+        } else {
+            return response()->json(['error' => 'Record not found'], 404);
+        }
     }
 
     public function cetakStruk($id)
