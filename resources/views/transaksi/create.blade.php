@@ -86,7 +86,7 @@
                 <label for="subtotal">Total</label>
             </div>
             <div class="col-3">
-                <input type="number" name="total" id="total" class="form-control" readonly>
+                <input type="number" name="total" id="total" class="form-control" readonly value="0">
             </div>
         </div>
 
