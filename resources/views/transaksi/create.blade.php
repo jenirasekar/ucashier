@@ -72,7 +72,7 @@
                     <tr>
                         <td>{{ $item->produk_name }}</td>
                         <td>{{ $item->qty }}</td>
-                        <td>{{ $item->subtotal }}</td>
+                        <td class="subtotalcol">{{ $item->subtotal }}</td>
                         <td>
                             <a href="/transaksi/detail/delete?id={{ $item->id }}" class="fas fa-times"
                                 data-id="{{ $item->id }}"></a>
@@ -130,7 +130,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        let total = 0;
         // mengisi harga, nama produk, dan qty based on selected id_produk
         $('#id_produk').on('change', function() {
             let harga_terpilih = $('#id_produk option:selected').data('harga');
@@ -158,6 +157,9 @@
         // trigger untuk tambah produk ke keranjang
         $('#btn-tambah').on('click', function(event) {
             event.preventDefault();
+
+            let total = $('#total').val();
+
             $.ajax({
                 type: 'POST',
                 url: $('#form_detail_transaksi').attr('action'),
@@ -166,7 +168,7 @@
                     let newRow = `<tr>
                         <td>${response.produk_name}</td>
                         <td>${response.qty}</td>
-                        <td>${response.subtotal}</td>
+                        <td class="subtotalcol">${response.subtotal}</td>
                         <td>
                             <a href="/transaksi/detail/delete?id=${response.id}" class="fas fa-times"></a>
                         </td>
@@ -174,7 +176,7 @@
 
                     $('#tbody_produk').append(newRow);
 
-                    total += parseInt(response.subtotal);
+                    total = parseInt(total) + parseInt(response.subtotal);
                     $('#total').val(total);
 
                     // total dalam modal
@@ -192,34 +194,21 @@
         $(document).on('click', '.fa-times', function(event) {
             event.preventDefault();
 
-            let deleteUrl = $(this).attr('href');
+            let delBtn = $(this);
+            let delBtnUrl = delBtn.attr('href');
 
             $.ajax({
-                url: deleteUrl,
+                url: delBtnUrl,
                 method: 'GET',
                 success: function(response) {
                     if (response && response.success) {
-                        let updatedCartData = response.updatedCartData;
-
-                        $('#tbody_produk').html('');
-                        $.each(updatedCartData, function(index, item) {
-                            let newRow = `<tr>
-                    <td>${item.produk_name}</td>
-                    <td>${item.qty}</td>
-                    <td>${item.subtotal}</td>
-                    <td>
-                        <a href="/transaksi/detail/delete?id=${item.id}" class="fas fa-times"></a>
-                    </td>
-                </tr>`;
-                            $('#tbody_produk').append(newRow);
-                        });
-
-                        let updatedTotal = response.updatedTotal;
-
-                        $('#total').val(updatedTotal);
+                        let trDeleted = delBtn.parents('tr');
+                        let subtotalDeleted = trDeleted.find('.subtotalcol').text();
+                        trDeleted.remove();
+                        $('#total').val($('#total').val() - parseInt(subtotalDeleted))
 
                         // total dalam modal
-                        $('#total-belanja').val(updatedTotal);
+                        $('#total-belanja').val($('#total').val());
                         // clear input fields
                         $('#id_produk, #harga, #qty, #subtotal').val('');
                     } else {
