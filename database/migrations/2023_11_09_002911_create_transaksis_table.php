@@ -22,6 +22,11 @@ return new class extends Migration
             $table->string('kasir_name')->nullable();
             $table->enum('status', ['selesai', 'pending', 'belum bayar'])->default('pending');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('produk_id')->nullable();
+            $table->foreign('produk_id')->references('id')->on('produks');
         });
     }
 

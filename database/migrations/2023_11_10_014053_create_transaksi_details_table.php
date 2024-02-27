@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('transaksi_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('transaksi_id');
-            $table->foreignId('produk_id');
+            $table->foreign('transaksi_id')->references('id')->on('transaksis');
             $table->string('produk_name');
             $table->foreignId('qty');
             $table->foreignId('subtotal');

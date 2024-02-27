@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('no_tlp');
             $table->timestamps();
         });
+
+        Schema::table('transaksis', function (Blueprint $table) {
+            $table->unsignedBigInteger('pelanggan_id')->nullable();
+            $table->foreign('pelanggan_id')->references('id')->on('pelanggans');
+        });
     }
 
     /**
