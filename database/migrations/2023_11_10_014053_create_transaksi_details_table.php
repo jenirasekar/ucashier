@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('transaksi_id');
             $table->foreign('transaksi_id')->references('id')->on('transaksis');
+            $table->unsignedBigInteger('produk_id')->nullable();
+            $table->foreign('produk_id')->references('id')->on('produks');
             $table->string('produk_name');
             $table->foreignId('qty');
             $table->foreignId('subtotal');
