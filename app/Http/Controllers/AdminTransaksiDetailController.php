@@ -16,25 +16,25 @@ class AdminTransaksiDetailController extends Controller
     {
         $id_produk = $request->produk_id;
         $id_transaksi = $request->transaksi_id;
-        $detail_transaksi = TransaksiDetail::where('produk_id', $id_produk)
-            ->where('transaksi_id', $id_transaksi)
-            ->first();
+
         $transaksi = Transaksi::find($id_transaksi);
 
         if ($transaksi == null) {
-            $transaksi =  Transaksi::where('status', 'pending')->first();
-            // store transaksi baru yang kosong
-            if ($transaksi == null) {
-                $transaksi = Transaksi::create([
-                    'user_id' => auth()->user()->id,
-                    'total' => 0,
-                    'dibayarkan' => 0,
-                    'kembalian' => 0,
-                    'kasir_name' => auth()->user()->name,
-                    'status' => 'pending'
-                ]);
-            }
-            // store detail transaksi dengan mengambil id transaksi di atas
+            $transaksi = Transaksi::create([
+                'user_id' => auth()->user()->id,
+                'total' => 0,
+                'dibayarkan' => 0,
+                'kembalian' => 0,
+                'kasir_name' => auth()->user()->name,
+                'status' => 'pending'
+            ]);
+        }
+
+        $detail_transaksi = TransaksiDetail::where('produk_id', $id_produk)
+            ->where('transaksi_id', $transaksi->id)
+            ->first();
+
+        if ($detail_transaksi == null) {
             $produk = Produk::find($id_produk);
             $data = [
                 'produk_id' => $id_produk,
@@ -43,33 +43,28 @@ class AdminTransaksiDetailController extends Controller
                 'qty'  => $request->qty,
                 'subtotal'  => $request->subtotal,
             ];
-            $dt = TransaksiDetail::create($data);
-
-            // ngambil stok lama
-            $old_stok = $produk->stok;
-            // kalkulasi stok
-            $produk->update([
-                'stok' => $old_stok - $request->qty
-            ]);
+            $detail_transaksi = TransaksiDetail::create($data);
         } else {
             $data = [
                 'qty'  => $detail_transaksi->qty + $request->qty,
                 'subtotal'  => $request->subtotal + $detail_transaksi->subtotal,
             ];
             $detail_transaksi->update($data);
+        }
 
-            // disini juga kalau produknya udah ada di itunya
-            $produk = Produk::find($id_produk);
-            // ngambil stok lama
+        $produk = Produk::find($id_produk);
+
+        if ($produk != null) {
             $old_stok = $produk->stok;
-            // kalkulasi stok
+
             $produk->update([
                 'stok' => $old_stok - $request->qty
             ]);
+        } else {
+            throw new \Exception('Produk tidak ditemukan.');
         }
 
-        // return redirect()->route('transaksi.create');
-        return response()->json($dt);
+        return response()->json($detail_transaksi);
     }
 
     public function delete()
@@ -98,9 +93,9 @@ class AdminTransaksiDetailController extends Controller
 
             $detail_transaksi->delete();
 
-            return response()->json(['success' => 'Record deleted successfully']);
+            return response()->json(['success' => 'Record telah dihapus']);
         } else {
-            return response()->json(['error' => 'Record not found'], 404);
+            return response()->json(['error' => 'Record tidak ditemukan'], 404);
         }
     }
 

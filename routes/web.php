@@ -40,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/produk', AdminProdukController::class);
         Route::get('/transaksi', [AdminTransaksiController::class, 'index'])->name('transaksi.monit');
         Route::get('/transaksi/create', [AdminTransaksiController::class, 'create'])->name('transaksi.create');
-        Route::get('/transaksi/store', [AdminTransaksiController::class, 'store'])->name('transaksi.store');
+        Route::post('/transaksi/store', [AdminTransaksiController::class, 'store'])->name('transaksi.store');
         Route::post('/transaksi/detail/store', [AdminTransaksiDetailController::class, 'store'])->name('detailtransaksi.store');
         Route::get('/transaksi/detail/delete', [AdminTransaksiDetailController::class, 'delete']);
         Route::get('/transaksi/cetak/{id}', [AdminTransaksiDetailController::class, 'cetakStruk'])->name('cetakStruk');

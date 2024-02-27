@@ -105,8 +105,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('transaksi.store') }}" method="post">
+            <form action="{{ route('transaksi.store') }}" method="post" id="form_transaksi">
+                @csrf
+                <div class="modal-body">
                     <div class="mb-2">
                         <label for="total">Total</label>
                         <input type="number" name="total" id="total-belanja" class="form-control" readonly>
@@ -119,11 +120,11 @@
                         <label for="kembalian">Kembalian</label>
                         <input type="number" name="kembalian" id="kembalian-belanja" class="form-control" readonly>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Bayar</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="btn-bayar">Bayar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -217,6 +218,52 @@
                 },
                 error: function(error) {
                     console.log(error);
+                }
+            });
+        });
+
+        // hitung kembalian
+        function updateKembalian() {
+            var totalBelanja = parseInt(document.getElementById('total-belanja').value);
+            var dibayarkan = parseInt(document.getElementById('dibayarkan').value);
+
+            var kembalian = dibayarkan - totalBelanja;
+
+            document.getElementById('kembalian-belanja').value = kembalian;
+        }
+
+        document.getElementById('dibayarkan').addEventListener('input', function() {
+            updateKembalian();
+        });
+
+        updateKembalian();
+
+        // pembayaran (cetak struk)
+        $('#btn-bayar').on('click', function(event) {
+            event.preventDefault();
+
+            var dibayarkanValue = $("#dibayarkan").val();
+            var kembalianValue = $("#kembalian-belanja").val();
+            $.ajax({
+                type: 'POST',
+                url: $('#form_transaksi').attr('action'),
+                data: {
+                    dibayarkan: dibayarkanValue,
+                    kembalian: kembalianValue,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.success) {
+                        window.open("{{ route('cetakStruk', Request::segment(2)) }}")
+                        window.location = "{{ route('transaksi.monit') }}";
+                    } else {
+                        alert('Pembayaran gagal!');
+                    }
+                },
+                error: function() {
+                    alert('Something went wrong. Please try again.');
                 }
             });
         });

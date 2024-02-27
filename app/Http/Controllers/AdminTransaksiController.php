@@ -76,7 +76,7 @@ class AdminTransaksiController extends Controller
         ];
         $transaksi->update($data);
 
-        return redirect()->route('transaksi.monit');
+        return response()->json('success');
     }
 
     /**
