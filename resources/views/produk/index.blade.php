@@ -12,9 +12,7 @@
                         <th>Nama</th>
                         <th>Harga</th>
                         <th>Stok</th>
-                        <th>Expired Date</th>
-                        <th>Production Date</th>
-                        <th>Action</th>
+                        <th>Aksi</th>
 
                     </tr>
 
@@ -24,8 +22,6 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->harga }}</td>
                             <td>{{ $item->stok }}</td>
-                            <td>{{ $item->tgl_kadaluwarsa }}</td>
-                            <td>{{ $item->tgl_produksi }}</td>
                             <td><img src="{{ Storage::url('public/produk/' . $item->gambar) }}" alt="gambar produk"
                                     style="width: 100px;"></td>
                             <td>

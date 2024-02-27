@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('kategori_id');
+            $table->foreign('kategori_id')->references('id')->on('kategoris');
             $table->bigInteger('harga')->default(0);
             $table->integer('stok');
             $table->text('gambar')->nullable();

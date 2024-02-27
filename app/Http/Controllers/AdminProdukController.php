@@ -57,22 +57,17 @@ class AdminProdukController extends Controller
             'kategori_id'  => 'required',
             'harga'  => 'required|numeric',
             'stok'  => 'required|numeric',
-            'tgl_produksi'  => 'required',
-            'tgl_kadaluwarsa'  => 'required',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png,svg,gif,jfif,webp',
         ]);
 
         $image = $request->file('gambar');
         $image->storeAs('public/produk/', $image->hashName());
 
-        // dd($data);
         Produk::create([
             'name'  => $request->name,
             'kategori_id'  => $request->kategori_id,
             'harga'  => $request->harga,
             'stok'  => $request->stok,
-            'tgl_produksi'  => $request->tgl_produksi,
-            'tgl_kadaluwarsa'  => $request->tgl_kadaluwarsa,
             'gambar' => $image->hashName(),
         ]);
         Alert::success('Sukses', 'Data Berhasil Ditambahkan');
