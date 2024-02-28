@@ -62,21 +62,18 @@ class AdminTransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        $transaksi_id =  request('id');
+        $transaksi_id =  request('transaksi_id');
         $transaksi = Transaksi::find($transaksi_id);
 
         $data = [
-            'user_id'   => auth()->user()->id,
             'total'     => $request->total,
             'dibayarkan' => $request->dibayarkan,
             'kembalian' => $request->kembalian,
-            'kasir_name'   => auth()->user()->name,
             'status' => 'selesai',
-            'pelanggan_id' => $request->pelanggan_id,
         ];
         $transaksi->update($data);
 
-        return response()->json('success');
+        return response()->json(['success' => true]);
     }
 
     /**

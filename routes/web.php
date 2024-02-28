@@ -43,7 +43,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/transaksi/store', [AdminTransaksiController::class, 'store'])->name('transaksi.store');
         Route::post('/transaksi/detail/store', [AdminTransaksiDetailController::class, 'store'])->name('detailtransaksi.store');
         Route::get('/transaksi/detail/delete', [AdminTransaksiDetailController::class, 'delete']);
-        Route::get('/transaksi/cetak/{id}', [AdminTransaksiDetailController::class, 'cetakStruk'])->name('cetakStruk');
+        Route::get('/transaksi/cetak', [AdminTransaksiDetailController::class, 'cetakStruk'])->name('cetakStruk');
         Route::resource('/pelanggan', PelangganController::class);
+        Route::get('/transaksi/pelanggan', [AdminTransaksiDetailController::class, 'pendingTransaksi'])->name('detailtransaksi.pending');
     });
 });

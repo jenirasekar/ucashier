@@ -27,7 +27,8 @@ class AdminTransaksiDetailController extends Controller
                 'dibayarkan' => 0,
                 'kembalian' => 0,
                 'kasir_name' => auth()->user()->name,
-                'status' => 'pending'
+                'status' => 'pending',
+                'pelanggan_id' => $request->pelanggan_id
             ]);
         }
 
@@ -66,6 +67,30 @@ class AdminTransaksiDetailController extends Controller
         }
 
         return response()->json($detail_transaksi);
+    }
+
+    public function pendingTransaksi(Request $request)
+    {
+        $id_pelanggan = $request->pelanggan_id;
+        $data = [
+            'details' => [],
+            'transaksi_id' => null,
+            'total' => 0
+        ];
+        if ($id_pelanggan != null) {
+            $transaksi = Transaksi::where('status', 'pending')
+                ->where('pelanggan_id', $id_pelanggan)
+                ->first();
+            $details = TransaksiDetail::where('transaksi_id', $transaksi->id)->get();
+            $total = TransaksiDetail::where('transaksi_id', $transaksi->id)->sum('subtotal');
+        }
+        $data = [
+            'details' => $details,
+            'transaksi_id' => $transaksi->id,
+            'total' => $total
+        ];
+
+        return response()->json($data);
     }
 
     public function delete()

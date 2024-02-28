@@ -89,8 +89,7 @@
             </div>
         </div>
 
-        <button type="button" class="btn btn-primary" id="btn-bayar" data-toggle="modal"
-            data-target="#modal-bayar">Bayar</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-bayar">Bayar</button>
     </div>
 </div>
 
@@ -106,6 +105,8 @@
             </div>
             <form action="{{ route('transaksi.store') }}" method="post" id="form_transaksi">
                 @csrf
+                <input type="hidden" name="transaksi_id" id="transaksi_id">
+                <input type="hidden" name="transaksi_id" id="transaksi_id2">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="total">Total</label>
@@ -154,6 +155,38 @@
             }
         }
 
+        // memilih pelanggan
+        $('#id_pelanggan').on('change', function() {
+            $.ajax({
+                type: 'GET',
+                url: "{{ route('detailtransaksi.pending') }}",
+                data: {
+                    'pelanggan_id': $('#id_pelanggan').val()
+                },
+                success: function(response) {
+                    $('#tbody_produk').empty();
+                    let details = response.details;
+                    details.forEach(detail => {
+                        let newRow = `<tr>
+                        <td>${detail.produk_name}</td>
+                        <td>${detail.qty}</td>
+                        <td class="subtotalcol">${detail.subtotal}</td>
+                        <td>
+                            <a href="/transaksi/detail/delete?id=${detail.id}" class="fas fa-times"></a>
+                        </td>
+                    </tr>`;
+
+                        $('#tbody_produk').append(newRow);
+                    });
+                    total = parseInt(response.total);
+                    $('#total').val(total);
+                    // total dalam modal
+                    $('#total-belanja').val(total);
+                    $('#transaksi_id').val(response.transaksi_id);
+                    $('#transaksi_id2').val(response.transaksi_id);
+                }
+            });
+        });
         // trigger untuk tambah produk ke keranjang
         $('#btn-tambah').on('click', function(event) {
             event.preventDefault();
@@ -247,19 +280,23 @@
 
             var dibayarkanValue = $("#dibayarkan").val();
             var kembalianValue = $("#kembalian-belanja").val();
+            var totalValue = $("#total-belanja").val();
+            var transaksi_id = $("#transaksi_id").val();
             $.ajax({
                 type: 'POST',
                 url: $('#form_transaksi').attr('action'),
                 data: {
                     dibayarkan: dibayarkanValue,
                     kembalian: kembalianValue,
+                    total: totalValue,
+                    transaksi_id: transaksi_id
                 },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
                     if (response.success) {
-                        window.open("{{ route('cetakStruk', Request::segment(2)) }}")
+                        window.open("{{ route('cetakStruk') }}?id=" + transaksi_id);
                         window.location = "{{ route('transaksi.monit') }}";
                     } else {
                         alert('Pembayaran gagal!');
