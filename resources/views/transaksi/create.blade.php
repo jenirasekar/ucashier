@@ -2,9 +2,8 @@
     <div class="card-body">
         <form action="{{ route('detailtransaksi.store') }}" method="post" id="form_detail_transaksi">
             @csrf
-            <input type="hidden" name="produk_name" id="nama_produk"
-                value="{{ isset($detail_produk) ? $detail_produk->name : '' }}">
-            <input type="hidden" name="transaksi_id" value="{{ isset($transaksi) ? $transaksi->id : '' }}">
+            <input type="hidden" name="produk_name" id="nama_produk" value="">
+            <input type="hidden" name="transaksi_id" id="id_transaksi" value="">
             <input type="hidden" name="subtotal" id="subtotal">
             <div class="form-group row">
                 <div class="col-2">
@@ -210,6 +209,10 @@
 
                         // total dalam modal
                         $('#total-belanja').val($('#total').val());
+
+                        $('#nama_produk').val(response.produk_name);
+                        $('#id_transaksi').val(response.transaksi_id);
+
                         // clear input fields
                         $('#id_produk, #harga, #qty, #subtotal').val('');
                     } else {
