@@ -8,7 +8,6 @@ use App\Models\TransaksiDetail;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminTransaksiDetailController extends Controller
 {
@@ -36,31 +35,38 @@ class AdminTransaksiDetailController extends Controller
             ->where('transaksi_id', $transaksi->id)
             ->first();
 
+        $produk = Produk::find($id_produk);
+        $reqQty = $request->qty;
+        $new_stok = $produk->stok - $reqQty;
+        if ($new_stok < 0) {
+            $new_stok = 0;
+            $reqQty = $produk->stok;
+        }
+
         if ($detail_transaksi == null) {
-            $produk = Produk::find($id_produk);
+            $produk = Produk::where('stok', '>', 0)->find($id_produk);
+
             $data = [
                 'produk_id' => $id_produk,
                 'produk_name' => $produk->name,
                 'transaksi_id'  => 1,
-                'qty'  => $request->qty,
+                'qty'  => $reqQty,
                 'subtotal'  => $request->subtotal,
             ];
             $detail_transaksi = TransaksiDetail::create($data);
         } else {
             $data = [
-                'qty'  => $detail_transaksi->qty + $request->qty,
+                'qty'  => $detail_transaksi->qty + $reqQty,
                 'subtotal'  => $request->subtotal + $detail_transaksi->subtotal,
             ];
             $detail_transaksi->update($data);
         }
 
         $produk = Produk::find($id_produk);
-
         if ($produk != null) {
             $old_stok = $produk->stok;
-
             $produk->update([
-                'stok' => $old_stok - $request->qty
+                'stok' => $old_stok - $reqQty
             ]);
         } else {
             throw new \Exception('Produk tidak ditemukan.');

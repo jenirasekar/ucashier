@@ -30,7 +30,7 @@ class AdminTransaksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
         $transaksi_id =  request('id');
         $transaksi = Transaksi::find($transaksi_id);
@@ -38,9 +38,10 @@ class AdminTransaksiController extends Controller
         $pelanggan_id = request('id');
         $pelanggan = Pelanggan::find($pelanggan_id);
         $pelanggan_list = Pelanggan::all();
-        $produk = Produk::get();
+        $produk = Produk::where('stok', '>', 0)->get();
         $produk_id = request('produk_id');
         $detail_produk = Produk::find($produk_id);
+
         $data = [
             'content' => 'transaksi/create',
             'transaksi' => $transaksi,

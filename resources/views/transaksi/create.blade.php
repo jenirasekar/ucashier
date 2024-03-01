@@ -166,7 +166,7 @@
                     $('#tbody_produk').empty();
                     let details = response.details;
                     details.forEach(detail => {
-                        let newRow = `<tr>
+                        let newRow = `<tr id='detail-${detail.id}'>
                         <td>${detail.produk_name}</td>
                         <td>${detail.qty}</td>
                         <td class="subtotalcol">${detail.subtotal}</td>
@@ -196,7 +196,7 @@
                 url: $('#form_detail_transaksi').attr('action'),
                 data: $('#form_detail_transaksi').serialize(),
                 success: function(response) {
-                    let newRow = `<tr>
+                    let newRow = `<tr id='detail-${response.id}'>
                         <td>${response.produk_name}</td>
                         <td>${response.qty}</td>
                         <td class="subtotalcol">${response.subtotal}</td>
@@ -204,7 +204,13 @@
                             <a href="/transaksi/detail/delete?id=${response.id}" class="fas fa-times"></a>
                         </td>
                     </tr>`;
-
+                    let detailId = `#detail-${response.id}`;
+                    let detail = $('#tbody_produk').find(detailId);
+                    if (detail.length > 0) {
+                        let subtotalDeleted = detail.find('.subtotalcol').text();
+                        total = parseInt(total) - parseInt(subtotalDeleted);
+                        detail.remove();
+                    }
                     $('#tbody_produk').append(newRow);
 
                     total = parseInt(total) + parseInt(response.subtotal);
