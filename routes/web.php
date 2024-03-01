@@ -50,5 +50,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/pelanggan', PelangganController::class);
         Route::get('/transaksi/pelanggan', [AdminTransaksiDetailController::class, 'pendingTransaksi'])->name('detailtransaksi.pending');
     });
-    Route::get('/laporan',);
+    Route::get('/laporan', [AdminTransaksiController::class, 'laporanPenjualan']);
+    Route::get('/cetaklaporan', [AdminTransaksiController::class, 'generateLaporan']);
 });

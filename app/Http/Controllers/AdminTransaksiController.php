@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\Produk;
 use App\Models\transaksiDetail;
+use Carbon\Carbon;
 
 class AdminTransaksiController extends Controller
 {
@@ -77,47 +78,29 @@ class AdminTransaksiController extends Controller
         return response()->json(['success' => true]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function laporanPenjualan()
     {
-        //
+        $transaksi = Transaksi::get();
+        $data = [
+            'title' => 'Laporan Transaksi',
+            'content' => 'transaksi.laporan',
+            'transaksi' => $transaksi
+        ];
+
+        return view('layouts.wrapper', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, $id)
+    public function generateLaporan()
     {
-    }
+        $transaksi = Transaksi::get();
+        $timestamp = Carbon::now()->format('Ymd');
+        $filename = 'laporan_transaksi_' . $timestamp . '.pdf';
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $pdf = app('dompdf.wrapper')->loadView('transaksi.laporan', [
+            'title' => 'Laporan Transaksi',
+            'transaksi' => $transaksi
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return $pdf->download($filename);
     }
 }
