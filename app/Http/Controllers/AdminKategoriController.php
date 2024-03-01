@@ -15,12 +15,20 @@ class AdminKategoriController extends Controller
      */
     public function index()
     {
-        //
-        // die('masuk');
         $data = [
             'kategori' => Kategori::paginate(10),
             'title'     => 'Manajemen Kategori',
             'content'   => 'kategori/index'
+        ];
+        return view('layouts.wrapper', $data);
+    }
+
+    public function indexAdmin()
+    {
+        $data = [
+            'kategori' => Kategori::paginate(10),
+            'title'     => 'Manajemen Kategori',
+            'content'   => 'admin/kategori/index'
         ];
         return view('layouts.wrapper', $data);
     }
@@ -40,6 +48,16 @@ class AdminKategoriController extends Controller
         return view('layouts.wrapper', $data);
     }
 
+    public function createAdmin()
+    {
+        //
+        $data = [
+            'title'     => 'Tambah Kategori',
+            'content'   => 'admin/kategori/create'
+        ];
+        return view('layouts.wrapper', $data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -55,7 +73,11 @@ class AdminKategoriController extends Controller
         Kategori::create($data);
         Alert::success('Sukses', 'Data Berhasil Ditambahkan');
 
-        return redirect('/kategori');
+        if (auth()->user()->role == 'petugas') {
+            return redirect('/kategori');
+        } else {
+            return redirect('/admin/kategori');
+        }
     }
 
     /**
@@ -79,9 +101,19 @@ class AdminKategoriController extends Controller
     {
         //
         $data = [
-            'title'     => 'Tambah Kategori',
+            'title'     => 'Edit Kategori',
             'kategori' => Kategori::find($id),
             'content'   => 'kategori/create'
+        ];
+        return view('layouts.wrapper', $data);
+    }
+    public function editAdmin($id)
+    {
+        //
+        $data = [
+            'title'     => 'Edit Kategori',
+            'kategori' => Kategori::find($id),
+            'content'   => 'admin/kategori/create'
         ];
         return view('layouts.wrapper', $data);
     }
@@ -103,7 +135,11 @@ class AdminKategoriController extends Controller
         $kategori->update($data);
         Alert::success('Sukses', 'Data Berhasil Diedit');
 
-        return redirect('/kategori');
+        if (auth()->user()->role == 'petugas') {
+            return redirect('/kategori');
+        } else {
+            return redirect('/admin/kategori');
+        }
     }
 
     /**
@@ -117,6 +153,11 @@ class AdminKategoriController extends Controller
         $kategori = Kategori::find($id);
         $kategori->delete();
         Alert::success('Sukses', 'Data Berhasil Dihapus');
-        return redirect('/kategori');
+
+        if (auth()->user()->role == 'petugas') {
+            return redirect('/kategori');
+        } else {
+            return redirect('/admin/kategori');
+        }
     }
 }

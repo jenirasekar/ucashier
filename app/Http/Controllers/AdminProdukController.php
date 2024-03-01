@@ -17,12 +17,20 @@ class AdminProdukController extends Controller
      */
     public function index()
     {
-        //
-        // die('masuk');
         $data = [
             'produk' => Produk::paginate(10),
             'title'     => 'Manajemen Produk',
             'content'   => 'produk/index'
+        ];
+        return view('layouts.wrapper', $data);
+    }
+
+    public function indexAdmin()
+    {
+        $data = [
+            'produk' => Produk::paginate(10),
+            'title'     => 'Manajemen Produk',
+            'content'   => 'admin/produk/index'
         ];
         return view('layouts.wrapper', $data);
     }
@@ -34,11 +42,20 @@ class AdminProdukController extends Controller
      */
     public function create()
     {
-        //
         $data = [
             'title'     => 'Tambah Produk',
             'kategori'  => Kategori::get(),
             'content'   => 'produk/create'
+        ];
+        return view('layouts.wrapper', $data);
+    }
+
+    public function createAdmin()
+    {
+        $data = [
+            'title'     => 'Tambah Produk',
+            'kategori'  => Kategori::get(),
+            'content'   => 'admin/produk/create'
         ];
         return view('layouts.wrapper', $data);
     }
@@ -72,7 +89,11 @@ class AdminProdukController extends Controller
         ]);
         Alert::success('Sukses', 'Data Berhasil Ditambahkan');
 
-        return redirect('/produk');
+        if (auth()->user()->role == 'admin') {
+            return redirect('/admin/produk');
+        } else {
+            return redirect('/produk');
+        }
     }
 
     /**
@@ -97,10 +118,22 @@ class AdminProdukController extends Controller
     {
         //
         $data = [
-            'title'     => 'Tambah Produk',
+            'title'     => 'Edit Produk',
             'produk' => Produk::find($id),
             'kategori' => Kategori::get(),
             'content'   => 'produk/create'
+        ];
+        return view('layouts.wrapper', $data);
+    }
+
+    public function editAdmin($id)
+    {
+        //
+        $data = [
+            'title'     => 'Edit Produk',
+            'produk' => Produk::find($id),
+            'kategori' => Kategori::get(),
+            'content'   => '/admin/produk/create'
         ];
         return view('layouts.wrapper', $data);
     }
@@ -153,7 +186,11 @@ class AdminProdukController extends Controller
 
         Alert::success('Sukses', 'Data Berhasil Diedit');
 
-        return redirect('/produk');
+        if (auth()->user()->role == 'petugas') {
+            return redirect('/produk');
+        } else {
+            return redirect('/admin/produk');
+        }
     }
 
     /**
@@ -172,6 +209,11 @@ class AdminProdukController extends Controller
         // }
         $produk->delete();
         Alert::success('Sukses', 'Data Berhasil Dihapus');
-        return redirect('/produk');
+
+        if (auth()->user()->role == 'petugas') {
+            return redirect('/produk');
+        } else {
+            return redirect('/admin/produk');
+        }
     }
 }

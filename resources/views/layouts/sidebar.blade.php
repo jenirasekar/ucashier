@@ -28,6 +28,22 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/admin/produk" class="nav-link {{ Request::is('admin/produk*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    Produk
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/kategori" class="nav-link {{ Request::is('admin/kategori*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>
+                                    Kategori
+                                </p>
+                            </a>
+                        </li>
                     @endif
 
                     @if (auth()->user()->isManager())
@@ -63,8 +79,15 @@
                                     Pelanggan
                                 </p>
                             </a>
-                        </li>
                     @endif
+                    <li class="nav-item">
+                        <a href="/laporan" class="nav-link {{ Request::is('laporan*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-solid fa-book"></i>
+                            <p>
+                                Laporan
+                            </p>
+                        </a>
+                    </li>
                 @endauth
             </ul>
         </nav>

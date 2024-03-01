@@ -5,7 +5,8 @@
             <div class="card-body">
                 <h5><b>{{ $title }}</b></h5>
 
-                <a href="/kategori/create" class="btn btn-primary mb-2">Tambah</a>
+                <a href="{{ auth()->user()->role == 'petugas' ? '/kategori/create' : '/admin/kategori/create' }}"
+                    class="btn btn-primary mb-2">Tambah</a>
                 <table class="table">
                     <tr>
                         <th>No</th>
@@ -20,14 +21,15 @@
                             <td>{{ $item->name }}</td>
                             <td>
                                 <div class="d-flex">
-                                    <a href="/kategori/{{ $item->id }}/edit" class="btn btn-info btn-sm"><i
-                                            class="fas fa-edit"></i></a>
-                                    <!-- <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</a> -->
-                                    <form action="/kategori/{{ $item->id }}" method="POST">
+                                    <a href="{{ auth()->user()->role == 'petugas' ? '/kategori/' . $item->id . '/edit' : '/admin/kategori/' . $item->id . '/edit' }}"
+                                        class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                    <form
+                                        action="{{ auth()->user()->role == 'petugas' ? '/kategori/' . $item->id : '/admin/kategori/' . $item->id }}"
+                                        method="POST">
                                         @method('delete')
                                         @csrf
                                         <button type="submit" class="btn btn-danger btn-sm ml-1"
-                                            onclick="confirm('Apakah Anda yakin>')"><i
+                                            onclick="confirm('Apakah Anda yakin?')"><i
                                                 class="fas fa-trash"></i></button>
                                     </form>
                                 </div>

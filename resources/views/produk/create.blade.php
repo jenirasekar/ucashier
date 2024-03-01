@@ -8,12 +8,14 @@
                 <hr>
 
                 @isset($produk)
-                    <form action="/produk/ {{ $produk->id }} " method="POST" enctype="multipart/form-data">
+                    <form
+                        action="{{ auth()->user()->role == 'petugas' ? '/produk/' . $produk->id : '/admin/produk/' . $produk->id }}"
+                        method="POST" enctype="multipart/form-data">
                         @method('PUT')
                     @else
                     @endisset
-                    <form action="/produk" method="POST" enctype="multipart/form-data">
-
+                    <form action="{{ auth()->user()->role == 'petugas' ? '/produk' : '/admin/produk/' }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         <div>
                             <label for="" class="form-label">Nama Produk</label>
