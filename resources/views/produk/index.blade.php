@@ -12,6 +12,7 @@
                         <th>Nama</th>
                         <th>Harga</th>
                         <th>Stok</th>
+                        <th>Gambar</th>
                         <th>Aksi</th>
 
                     </tr>

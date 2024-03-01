@@ -121,8 +121,6 @@ class AdminProdukController extends Controller
             'kategori_id'  => 'required',
             'harga'  => 'required|numeric',
             'stok'  => 'required|numeric',
-            'tgl_produksi'  => 'required',
-            'tgl_kadaluwarsa'  => 'required',
         ]);
 
         if ($request->hasFile('gambar')) {
