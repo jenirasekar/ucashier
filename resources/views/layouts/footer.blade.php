@@ -16,7 +16,7 @@
       Aplikasi Kasir UKK
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2023 <a href="https://github.com/jenirasekar">Jenira Sekar</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2023 <a href="https://github.com/jenirasekar">Kelompok Kasir</a>.</strong> All rights reserved.
   </footer>
 
 </div>

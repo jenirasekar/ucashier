@@ -17,6 +17,7 @@ class AdminTransaksiDetailController extends Controller
         $id_produk = $request->produk_id;
         $id_transaksi = $request->transaksi_id;
 
+        $transaksi = Transaksi::find($id_transaksi);
         $transaksi = Transaksi::where('status', 'pending')->first();
 
         if ($transaksi == null) {
@@ -40,7 +41,7 @@ class AdminTransaksiDetailController extends Controller
             $data = [
                 'produk_id' => $id_produk,
                 'produk_name' => $produk->name,
-                'transaksi_id'  => $transaksi->id,
+                'transaksi_id'  => 1,
                 'qty'  => $request->qty,
                 'subtotal'  => $request->subtotal,
             ];
@@ -73,19 +74,19 @@ class AdminTransaksiDetailController extends Controller
         $id_pelanggan = $request->pelanggan_id;
         $data = [
             'details' => [],
-            'transaksi_id' => null,
+            'transaksi_id' => 1,
             'total' => 0
         ];
         if ($id_pelanggan != null) {
             $transaksi = Transaksi::where('status', 'pending')
                 ->where('pelanggan_id', $id_pelanggan)
                 ->first();
-            $details = TransaksiDetail::where('transaksi_id', $transaksi->id)->get();
-            $total = TransaksiDetail::where('transaksi_id', $transaksi->id)->sum('subtotal');
+            $details = TransaksiDetail::where('transaksi_id', 1)->get();
+            $total = TransaksiDetail::where('transaksi_id', 1)->sum('subtotal');
         }
         $data = [
             'details' => $details,
-            'transaksi_id' => $transaksi->id,
+            'transaksi_id' => 1,
             'total' => $total
         ];
 

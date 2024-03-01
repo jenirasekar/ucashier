@@ -3,7 +3,7 @@
         <form action="{{ route('detailtransaksi.store') }}" method="post" id="form_detail_transaksi">
             @csrf
             <input type="hidden" name="produk_name" id="nama_produk" value="">
-            <input type="hidden" name="transaksi_id" id="transaksi_id" value="">
+            <input type="hidden" name="transaksi_id" id="transaksi_id" value="1">
             <input type="hidden" name="subtotal" id="subtotal">
             <div class="form-group row">
                 <div class="col-2">
@@ -293,7 +293,7 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        window.open("{{ route('cetakStruk') }}?id=" + transaksi_id);
+                        // window.open("{{ route('cetakStruk', Request::segment(2)) }}");
                         window.location = "{{ route('transaksi.monit') }}";
                     } else {
                         alert('Pembayaran gagal!');
