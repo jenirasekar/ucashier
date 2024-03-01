@@ -18,9 +18,9 @@ class AdminTransaksiDetailController extends Controller
         $id_transaksi = $request->transaksi_id;
 
         $transaksi = Transaksi::find($id_transaksi);
-        $transaksi = Transaksi::where('status', 'pending')->first();
 
         if ($transaksi == null) {
+            $transaksi = Transaksi::where('status', 'pending')->first();
             $transaksi = Transaksi::create([
                 'user_id' => auth()->user()->id,
                 'total' => 0,
