@@ -34,11 +34,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware('checkRole:admin')->group(function () {
         Route::resource('/admin/user', AdminUserController::class);
+        Route::resource('/admin/produk', AdminProdukController::class);
+        Route::resource('/admin/kategori', AdminKategoriController::class);
     });
 
     Route::middleware('checkRole:petugas')->group(function () {
-        Route::resource('/kategori', AdminKategoriController::class);
         Route::resource('/produk', AdminProdukController::class);
+        Route::resource('/kategori', AdminKategoriController::class);
         Route::get('/transaksi', [AdminTransaksiController::class, 'index'])->name('transaksi.monit');
         Route::get('/transaksi/create', [AdminTransaksiController::class, 'create'])->name('transaksi.create');
         Route::post('/transaksi/store', [AdminTransaksiController::class, 'store'])->name('transaksi.store');
@@ -48,4 +50,5 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/pelanggan', PelangganController::class);
         Route::get('/transaksi/pelanggan', [AdminTransaksiDetailController::class, 'pendingTransaksi'])->name('detailtransaksi.pending');
     });
+    Route::get('/laporan',);
 });
