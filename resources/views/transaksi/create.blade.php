@@ -3,7 +3,7 @@
         <form action="{{ route('detailtransaksi.store') }}" method="post" id="form_detail_transaksi">
             @csrf
             <input type="hidden" name="produk_name" id="nama_produk" value="">
-            <input type="hidden" name="transaksi_id" id="id_transaksi" value="">
+            <input type="hidden" name="transaksi_id" id="transaksi_id" value="">
             <input type="hidden" name="subtotal" id="subtotal">
             <div class="form-group row">
                 <div class="col-2">
@@ -106,7 +106,6 @@
             <form action="{{ route('transaksi.store') }}" method="post" id="form_transaksi">
                 @csrf
                 <input type="hidden" name="transaksi_id" id="transaksi_id">
-                <input type="hidden" name="transaksi_id" id="transaksi_id2">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="total">Total</label>
@@ -183,7 +182,6 @@
                     // total dalam modal
                     $('#total-belanja').val(total);
                     $('#transaksi_id').val(response.transaksi_id);
-                    $('#transaksi_id2').val(response.transaksi_id);
                 }
             });
         });
@@ -214,6 +212,7 @@
 
                     // total dalam modal
                     $('#total-belanja').val(total);
+                    $('#transaksi_id').val(response.transaksi_id);
                     // clear input fields
                     $('#id_produk, #harga, #qty, #subtotal').val('');
                 },
@@ -244,7 +243,7 @@
                         $('#total-belanja').val($('#total').val());
 
                         $('#nama_produk').val(response.produk_name);
-                        $('#id_transaksi').val(response.transaksi_id);
+                        $('#transaksi_id').val(response.transaksi_id);
 
                         // clear input fields
                         $('#id_produk, #harga, #qty, #subtotal').val('');
@@ -296,7 +295,7 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        // window.open("{{ route('cetakStruk', Request::segment(2)) }}");
+                        window.open("{{ route('cetakStruk') }}?id=" + transaksi_id);
                         window.location = "{{ route('transaksi.monit') }}";
                     } else {
                         alert('Pembayaran gagal!');

@@ -125,9 +125,10 @@ class AdminTransaksiDetailController extends Controller
         }
     }
 
-    public function cetakStruk($id)
+    public function cetakStruk(Request $request)
     {
-        $transaksi = Transaksi::find($id);
+        $id_transaksi = $request->id;
+        $transaksi = Transaksi::find($id_transaksi);
         $data_struk = DB::table('transaksis')
             ->join('transaksi_details', 'transaksi_details.transaksi_id', '=', 'transaksis.id')
             ->join('produks', 'produks.id', '=', 'transaksi_details.produk_id')
@@ -145,7 +146,7 @@ class AdminTransaksiDetailController extends Controller
                 'produks.harga as harga_produk',
                 'pelanggans.nama_pelanggan',
                 DB::raw('transaksi_details.qty * produks.harga as subtotal_produk')
-            )->where('transaksis.id', $id)
+            )->where('transaksis.id', $id_transaksi)
             ->get();
         $timestamp = Carbon::now()->format('YmdHis');
         $filename = 'struk_' . $timestamp . '.pdf';
